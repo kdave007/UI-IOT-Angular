@@ -1,0 +1,61 @@
+<div class="description">
+    Selecciona y establece el tipo de reporte (Solo es posible activar un tipo de reporte por dispositivo):
+</div>
+
+<div class="options-container">
+    <nb-radio-group [(value)]="reportMode">
+        <nb-radio
+        *ngFor="let mode of reportModes"
+        (click)="setReportMode(mode.value)"      
+        [value]="mode.value">
+        {{ mode.label }}
+        </nb-radio>
+    </nb-radio-group>
+
+    <mat-divider vertical class="vertical-divider"></mat-divider>
+
+    <div *ngIf="reportMode == getReportModes.INTERVAL; then showInterval else showScheduled"></div>
+
+    <ng-template #showInterval>
+        <div class="input-container">
+            <span class="info-text">Intervalo de reporte: <span class="range-text">(1-1440)</span> </span>
+
+            <input nbInput value={{defaultReportTime}} class="inputPicker" type="number" min=1 max=1440 placeholder="" (keyup)="updateInterval($event)" (change)="updateInterval($event)" [(ngModel)]="defaultReportTime"> 
+            <span class="small-text">minutos</span>
+
+            <!--
+            <ng-number-picker value={{defaultReportTime}} class="picker" postfix="minutos" min=60 max=1440 size="small" (valueChange)="updateInterval($event)"></ng-number-picker>
+            -->
+        </div>
+    </ng-template>
+
+    <ng-template #showScheduled>
+        <div class="input-container">
+            <span class="info-text">Hora de reporte: <span class="range-text">(1-24)</span> </span>
+
+            <input nbInput value={{defaultReportHour}} class="inputPicker" type="number" min=1 max=24 placeholder="" (keyup)="updateHour($event)" (change)="updateHour($event)" [(ngModel)]="defaultReportHour"> 
+            <span class="small-text">hr.</span>
+
+            <!--
+            <ng-number-picker value={{defaultReportHour}} class="small-picker" postfix="hr." min=0 max=23 size="small" (valueChange)="updateHour($event)"></ng-number-picker>
+            -->
+        </div>
+    </ng-template>
+
+    <mat-divider vertical class="vertical-divider"></mat-divider>
+
+    <div >
+        <div class="input-frame">
+            <span class="small-text">Habilitar GPS </span>   
+            <nb-toggle status="basic" (change)="updateReportSubject()" [(ngModel)]="REPORT.gps_en" > </nb-toggle>
+        </div> 
+
+        <div class="input-frame">
+            <span class="small-text">Habilitar LTE </span>   
+            <nb-toggle status="basic" (change)="updateReportSubject()" [(ngModel)]="REPORT.lte_en" > </nb-toggle>
+        </div> 
+     
+    </div>
+
+</div>
+

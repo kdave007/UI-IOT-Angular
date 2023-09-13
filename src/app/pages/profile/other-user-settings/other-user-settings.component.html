@@ -1,0 +1,178 @@
+<div > 
+     <div>
+         <nb-card accent="info">
+         <nb-accordion multi>
+            <nb-accordion-item >
+                <nb-accordion-item-header  class="accordion-header">Datos de usuario</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <div class="sub-container">
+                        <div class="title">
+                            Actualizar contraseña
+                        </div>
+                
+                        <div>
+                            <!-- <div class="field-container">
+                                <mat-form-field class="profile-field">
+                                    <mat-label>Contraseña actual</mat-label>
+                                    <input maxlength=63 matInput placeholder="Ingresar contraseña actual" [type]="showPrevKey ? 'text' : 'password'" [(ngModel)]="oldKey"
+                                    (keyup)="setOldKey($event)">                  
+                                </mat-form-field>
+                        
+                                <nb-checkbox class="toggle-btn" (checkedChange)="showPrevKey = $event" checked={{showPrevKey}}>Mostrar</nb-checkbox>
+                            </div> -->
+                        
+                            <div class="field-container">
+                                <mat-form-field class="profile-field">
+                                    <mat-label>Contraseña nueva</mat-label>
+                                    <input [disabled]="nonEditableList" maxlength=63 matInput placeholder="Ingresar nueva contraseña" [type]="showNewKey ? 'text' : 'password'" [(ngModel)]="newKey"
+                                    (keyup)="setNewKey($event)">                  
+                                </mat-form-field>
+                        
+                                <nb-checkbox class="toggle-btn" (checkedChange)="showNewKey = $event" checked={{showNewKey}}>Mostrar</nb-checkbox>
+                            </div>
+                
+                            <div class="field-container">
+                                <mat-form-field class="profile-field">
+                                    <mat-label>Repetición de contraseña nueva</mat-label>
+                                    <input [disabled]="nonEditableList" maxlength=63 matInput placeholder="Repetir contraseña nueva" [type]="showNewKeyRep ? 'text' : 'password'" [(ngModel)]="newKeyConfirm"
+                                    (keyup)="setNewKeyRep($event)">                  
+                                </mat-form-field>
+                        
+                                <nb-checkbox class="toggle-btn" (checkedChange)="showNewKeyRep = $event" checked={{showNewKeyRep}}>Mostrar</nb-checkbox>
+                            </div>
+                        </div>
+                    
+                        <button nbButton hero status="success"  [disabled]="disabledButton.saveList || nonEditableList" (click)="saveKey()">Actualizar contraseña</button>
+                    </div>
+                    
+                    <mat-divider vertical class="vertical-divider"></mat-divider>
+                
+                    <div class="sub-container">
+                        <div class="title">
+                            Actualizar correo
+                        </div>
+                
+                        <div>
+                            <!-- <div class="field-container">
+                                <mat-form-field class="profile-field">
+                                    <mat-label>Contraseña actual</mat-label>
+                                    <input maxlength=63 matInput placeholder="Ingresar contraseña actual" [type]="showPrevKeyMail ? 'text' : 'password'" [(ngModel)]="newMailKeyCheck"
+                                    (keyup)="setNewMailKeyCheck($event)">                  
+                                </mat-form-field>
+                        
+                                <nb-checkbox class="toggle-btn" (checkedChange)="showPrevKeyMail = $event" checked={{showPrevKeyMail}}>Mostrar</nb-checkbox>
+                            </div> -->
+                        
+                            <div class="field-container">
+                                <mat-form-field class="profile-field">
+                                    <mat-label>Nuevo correo</mat-label>
+                                    <input [disabled]="nonEditableList" maxlength=63 matInput placeholder="Ingresar nuevo correo" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" [(ngModel)]="newMail"
+                                    oninput="this.value = this.value.toLowerCase()" (keyup)="setNewMail($event)">                  
+                                </mat-form-field>
+                            </div>
+                
+                            <div class="field-container">
+                                <mat-form-field class="profile-field">
+                                    <mat-label>Repetición de correo</mat-label>
+                                    <input [disabled]="nonEditableList" maxlength=63 matInput placeholder="Repetir correo nuevo" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" [(ngModel)]="newMailConfirm"
+                                    oninput="this.value = this.value.toLowerCase()" (keyup)="setNewMailConfirm($event)">                  
+                                </mat-form-field>    
+                            </div>
+                        </div>
+                    
+                        <button nbButton hero status="success"  [disabled]="disabledButton.saveList || nonEditableList" (click)="saveMail()">Actualizar correo</button>
+                    </div>
+
+                    <div *ngIf="userSeasonInfo!=undefined && userSeasonInfo.level < 2" class="sub-container">
+                        <div class="title">
+                            Asignar compañia
+                        </div>
+                        <mat-label>Grupo</mat-label>
+                        <mat-select [(value)]="userCompany">
+                            <mat-option *ngFor="let option of companiesList; let i = index"  value={{option.id}} > {{option.companyName}} </mat-option>
+                        </mat-select>
+                    </div> 
+                    <button nbButton hero status="success"  *ngIf="userSeasonInfo && userSeasonInfo.level < 2" [disabled]="disabledButton.saveList" (click)="updateUserFamily()">Asignar</button>   
+                </nb-accordion-item-body>
+             </nb-accordion-item> 
+            
+            <nb-accordion-item >
+                 <nb-accordion-item-header  class="accordion-header">Asignación de dispositivos</nb-accordion-item-header>
+                 <nb-accordion-item-body>
+                    <div style="display: flex;"> 
+                         <div style="padding-bottom: 15px; width:  45%; padding-right: 20px;">
+                              <div style="padding-bottom: 5px;">
+                                  <span class="title-text">Disponibles (Id / Alias / Ruta)</span>
+                              </div>
+                              
+                              <div style="padding-top:15px; overflow-y: scroll; height: 380px;">
+                                      
+                                      <div class ="row-cont" *ngFor="let device of availableList; let i = index; " >
+                                          <div style="align-self: center; min-width: 250px;">
+                                              <span > {{ device.id }} / {{ device.alias }} / {{ device.route }} </span> 
+                                          </div>
+                                         <div ><button nbButton hero status="success" [disabled]="device.taken || nonEditableList" (click)="addItem(i)">></button></div>
+                                      </div>
+                                 
+                              </div>
+              
+                          </div> 
+
+                          <div style="width: 45%;">
+                              <div style="padding-left: 25px; padding-bottom: 5px;">
+                                   <span class="title-text">Asignados (Id / Alias / Ruta)</span>
+                              </div>
+                              
+                              <div class="selected-container">
+                                  <div class ="row-cont" *ngFor="let device of targetList">
+                                      <div style="align-self: center; min-width: 250px;">
+                                        <span > {{ device.id }} / {{ device.alias }} / {{ device.route }}</span>
+                                      </div> 
+                                      <div><button nbButton hero status="danger" [disabled]="nonEditableList" (click)="removeItem(device.id)" >X</button></div>
+                                  </div>
+                              </div>
+                              <div style="padding-left: 5px; padding-bottom:30px; display: flex;">
+                                <div style="padding-right: 20px;">
+                                    <button class="action-button" [disabled]="disabledButton.saveList || nonEditableList" nbButton status="success" (click)="saveChanges(confirmDialog)">Guardar</button>
+                                </div>
+                                <button class="action-button" nbButton status="info" [disabled]="disabledButton.undo || nonEditableList" (click)="undoList()">Deshacer</button>                                    
+                            </div>
+                          </div>
+                    </div>
+
+                    <div>
+                        <button (click)="showHelp()" nbButton>Ayuda</button>
+                        <div style="padding-top: 20px;" [hidden]="!showHelpText">
+                            <p><a style="font-weight: bolder;">Disponibles: </a> Lista de dispositivos disponibles para asignar al usuario seleccionado.</p>
+                            <p><a style="font-weight: bolder;">Asignados: </a> Lista de dispositivos asignados y por asignar al usuario seleccionado.</p>
+                            
+                        </div>
+                    </div>
+
+                 </nb-accordion-item-body>
+             </nb-accordion-item>
+
+ 
+            </nb-accordion>
+         </nb-card>
+     </div> 
+ </div>
+
+ <ng-template #confirmDialog>
+    <div>
+         <div class="warning-txt"> {{questionText}} </div>
+
+         <div class="confirm-btns">
+              <button nbButton class="confirm-btn" fullWidth status="info" size="large"
+                   (click)="saveList(false)">
+                   Cancelar
+              </button>
+
+              <button nbButton class="confirm-btn" fullWidth status="danger" size="large"
+                   (click)="saveList(true)">
+                   Confirmar
+              </button>
+         </div>
+
+    </div>
+</ng-template>

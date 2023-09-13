@@ -1,0 +1,209 @@
+<ngx-devices></ngx-devices>
+
+<nb-card size="big" class="config-card">
+     
+     <nb-card-header>
+          <div class="header-container">
+               <div>Configuraciones del dispositivo</div>
+          
+               <div class="btns-container">
+                    <button class="btn-misc" nbButton status="warning" size="small" (click)="revertChanges(confirmDialog)">Deshacer</button>
+                    <button class="btn-misc" nbButton status="success" size="small" (click)="saveChanges(confirmDialog)">Guardar</button>
+                    <button class="btn-misc" nbButton status="danger" size="small" (click)="setDefault(confirmDialog)">Restablecer</button>
+               </div>
+          </div>          
+      </nb-card-header>
+
+      <nb-card-body>
+          <nb-accordion>
+               <nb-accordion-item *ngIf="userPermissions && userPermissions.compressorControl">
+                    <nb-accordion-item-header class="accordion-header">
+                         Unidad de enfriamiento
+                    </nb-accordion-item-header>
+          
+                    <nb-accordion-item-body style="overflow: unset!important;">
+                         <div style="padding-left: 10px;padding-top: 30px;">
+                              <button (click)="showHelp(HELP_INDEXES.COMP)" nbButton>Ayuda</button>
+                              <div style="padding-top: 20px;" [hidden]="!showHelpText[HELP_INDEXES.COMP]">
+                                  <p>{{helpString[HELP_INDEXES.COMP].text_1}}</p>
+                                  <p>{{helpString[HELP_INDEXES.COMP].text_2}}</p>                 
+                              </div>
+                          </div>
+                         <ngx-box-prepare [deviceId]="devId"></ngx-box-prepare>
+                    </nb-accordion-item-body>
+               </nb-accordion-item>
+          
+          
+                    <nb-accordion-item  *ngIf="userPermissions && userPermissions.samplingSetup">
+                         <nb-accordion-item-header class="accordion-header">
+                              Frecuencia de muestreo de temperatura
+                         </nb-accordion-item-header>
+               
+                         <nb-accordion-item-body>
+                              <ngx-sampling [deviceId]="devId"></ngx-sampling>
+                              <div style="padding-left: 10px;padding-top: 30px;">
+                                   <button (click)="showHelp(HELP_INDEXES.SAMPLES)" nbButton>Ayuda</button>
+                                   <div style="padding-top: 20px;" [hidden]="!showHelpText[HELP_INDEXES.SAMPLES]">
+                                       <p><a style="font-weight: bolder;">{{helpString[HELP_INDEXES.SAMPLES].title_1}}</a>{{helpString[HELP_INDEXES.SAMPLES].body_1}}</p>
+                                       <p><a style="font-weight: bolder;">{{helpString[HELP_INDEXES.SAMPLES].title_2}}</a>{{helpString[HELP_INDEXES.SAMPLES].body_2}}</p>            
+                                   </div>
+                               </div>
+                         </nb-accordion-item-body>
+                    </nb-accordion-item>
+          
+           
+               <nb-accordion-item *ngIf="userPermissions && userPermissions.reportSetup">
+                    <nb-accordion-item-header class="accordion-header">
+                         Opciones del reporte de dispositivo
+                    </nb-accordion-item-header>
+          
+                    <nb-accordion-item-body>
+                         <ngx-report [deviceId]="devId"></ngx-report>
+                         <div style="padding-left: 10px;padding-top: 30px;">
+                              <button (click)="showHelp(HELP_INDEXES.REPORT)" nbButton>Ayuda</button>
+                              <div style="padding-top: 20px;" [hidden]="!showHelpText[HELP_INDEXES.REPORT]">
+                                  <p>{{helpString[HELP_INDEXES.REPORT]}}</p>            
+                              </div>
+                          </div>
+                    </nb-accordion-item-body>
+               </nb-accordion-item>
+            
+               
+          
+               <nb-accordion-item *ngIf="userPermissions && userPermissions.thermistorsCalibration">
+                    <nb-accordion-item-header class="accordion-header">
+                         Calibración de termistores
+                    </nb-accordion-item-header>
+          
+                    <nb-accordion-item-body>
+                         <ngx-thermistor-cal [deviceId]="devId"></ngx-thermistor-cal>
+                         <div style="padding-left: 10px;padding-top: 30px;">
+                              <button (click)="showHelp(HELP_INDEXES.THERM)" nbButton>Ayuda</button>
+                              <div style="padding-top: 20px;" [hidden]="!showHelpText[HELP_INDEXES.THERM]">
+                                  <p>{{helpString[HELP_INDEXES.THERM]}}</p>            
+                              </div>
+                          </div>
+                    </nb-accordion-item-body>
+               </nb-accordion-item>
+          
+               <!-- <nb-accordion-item *ngIf="userPermissions && userPermissions.gpiosOffsets">
+                    <nb-accordion-item-header class="accordion-header">
+                         Calibración de GPIOS
+                    </nb-accordion-item-header>
+          
+                    <nb-accordion-item-body>
+                         <ngx-gpio-filter [deviceId]="devId"></ngx-gpio-filter>
+                         <div style="padding-left: 10px;padding-top: 30px;">
+                              <button (click)="showHelp(HELP_INDEXES.GPIOS)" nbButton>Ayuda</button>
+                              <div style="padding-top: 20px;" [hidden]="!showHelpText[HELP_INDEXES.GPIOS]">
+                                  <p>{{helpString[HELP_INDEXES.GPIOS]}}</p>            
+                              </div>
+                          </div>
+                    </nb-accordion-item-body>
+               </nb-accordion-item> -->
+          
+               <nb-accordion-item *ngIf="userPermissions && userPermissions.apSetup">
+                    <nb-accordion-item-header class="accordion-header">
+                         Credenciales de red WIFI
+                    </nb-accordion-item-header>
+          
+                    <nb-accordion-item-body>
+                         <ngx-wifi [deviceId]="devId"></ngx-wifi>
+                         <div style="padding-left: 10px;padding-top: 30px;">
+                              <button (click)="showHelp(HELP_INDEXES.WIFI)" nbButton>Ayuda</button>
+                              <div style="padding-top: 20px;" [hidden]="!showHelpText[HELP_INDEXES.WIFI]">
+                                  <p>{{helpString[HELP_INDEXES.WIFI]}}</p>            
+                              </div>
+                          </div>
+                    </nb-accordion-item-body>
+               </nb-accordion-item>
+
+               <nb-accordion-item *ngIf="userPermissions && userPermissions.lmodulesSetup">
+                    <nb-accordion-item-header class="accordion-header">
+                         Sensores de luz
+                    </nb-accordion-item-header>
+          
+                    <nb-accordion-item-body>
+                         <ngx-l-mod [deviceId]="devId"></ngx-l-mod>
+                         <div style="padding-left: 10px;padding-top: 30px;">
+                              <button (click)="showHelp(HELP_INDEXES.L_MOD)" nbButton>Ayuda</button>
+                              <div style="padding-top: 20px;" [hidden]="!showHelpText[HELP_INDEXES.L_MOD]">
+                                   <p>{{helpString[HELP_INDEXES.L_MOD].basic}}</p>
+                                   <p><a style="font-weight: bolder;">{{helpString[HELP_INDEXES.L_MOD].title_1}}</a>{{helpString[HELP_INDEXES.L_MOD].body_1}}</p>
+                                   <p><a style="font-weight: bolder;">{{helpString[HELP_INDEXES.L_MOD].title_2}}</a>{{helpString[HELP_INDEXES.L_MOD].body_2}}</p>
+                                   <p><a style="font-weight: bolder;">{{helpString[HELP_INDEXES.L_MOD].title_3}}</a>{{helpString[HELP_INDEXES.L_MOD].body_3}}</p>
+                                   <p><a style="font-weight: bolder;">{{helpString[HELP_INDEXES.L_MOD].title_4}}</a>{{helpString[HELP_INDEXES.L_MOD].body_4}}</p>           
+                                   <p><a style="font-weight: bolder;">{{helpString[HELP_INDEXES.L_MOD].title_5}}</a>{{helpString[HELP_INDEXES.L_MOD].body_5}}</p>
+                              </div>
+                          </div>
+                    </nb-accordion-item-body>
+               </nb-accordion-item>
+
+               <nb-accordion-item *ngIf="userPermissions && userPermissions.advancedSetup"> 
+                    <nb-accordion-item-header class="accordion-header">
+                         Configuraciones avanzadas
+                    </nb-accordion-item-header>
+          
+                    <nb-accordion-item-body>
+                         <ngx-advanced [deviceId]="devId"></ngx-advanced>
+                    </nb-accordion-item-body>
+               </nb-accordion-item>
+
+          </nb-accordion>
+     </nb-card-body>
+</nb-card>
+
+<nb-card [hidden]="SUPER_ACTIONS.disabledIntervals" size="big"  class="config-card">
+     <nb-card-header>
+          <div class="header-container">
+               <div>Configuraciones de interfaz</div>
+          </div>          
+     </nb-card-header>
+     <nb-card-body>
+          <nb-accordion>
+               <nb-accordion-item>
+                    <nb-accordion-item-header class="accordion-header">
+                         Filtro en gráficas de temperatura
+                    </nb-accordion-item-header>
+                    <nb-accordion-item-body style="overflow: unset!important;">
+                         <ngx-interface-settings [deviceId]="devId"></ngx-interface-settings>
+                         <div style="padding-left: 10px;padding-top: 30px;">
+                              <button (click)="showHelp(HELP_INDEXES.INT)" nbButton>Ayuda</button>
+                              <div style="padding-top: 20px;" [hidden]="!showHelpText[HELP_INDEXES.INT]">
+                                  <p>{{helpString[HELP_INDEXES.INT]}}</p>            
+                              </div>
+                          </div>
+                    </nb-accordion-item-body>
+
+               </nb-accordion-item>
+          </nb-accordion>
+     </nb-card-body>
+</nb-card>
+
+
+<ng-template #confirmDialog>
+     <div >
+       <div class="warning-txt"> {{questionText}} </div>
+   
+       <div class="confirm-btns">
+         <button nbButton
+               class="confirm-btn"
+               fullWidth
+               status="info"
+               size="large"
+               (click)="confirmChanges(false)">
+               Cancelar
+         </button>
+   
+         <button nbButton
+               class="confirm-btn"
+               fullWidth
+               status="danger"
+               size="large"
+               (click)="confirmChanges(true)">
+               Confirmar        
+         </button>
+       </div>
+   
+     </div>
+   </ng-template>

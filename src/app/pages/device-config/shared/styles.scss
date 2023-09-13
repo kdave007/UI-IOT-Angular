@@ -1,0 +1,53 @@
+.input-container{
+    display: flex;
+    height: 40px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.options-container{
+    display: flex !important;
+}
+
+.info-text{
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-right: 1rem;
+    font-size: 1.2rem;
+}
+
+.description{
+    padding-bottom: 10px;
+}
+
+.note{
+    padding-top: 10px;
+    font-size: 10px;
+}
+
+.picker{
+    width: 14rem;
+}
+
+.small-picker{
+    width: 10rem;
+}
+
+.range-text{
+    font-size: 0.8rem;
+}
+
+.horizontal-divider, .vertical-divider{
+    color:gainsboro;    
+}
+
+.horizontal-divider{
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.vertical-divider{
+    margin-left: 1rem;
+    margin-right: 1.5rem;
+}

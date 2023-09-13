@@ -1,0 +1,78 @@
+@import '../../../../@theme/styles/themes';
+
+@include nb-install-component() {
+  ::ng-deep .form {
+    display: flex;
+    flex-direction: column;
+
+    .text-label {
+      margin-top: 1.5rem;
+    }
+    #level-Label{
+         color:red;
+         align-self: center;
+         font-size: large;
+    }
+    
+  }
+}
+
+.hide-element{
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.main{
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+
+  overflow: scroll !important;
+
+  scrollbar-width: none;
+}
+
+
+.main::-webkit-scrollbar {
+  width: 0px !important;
+}
+
+.list-cont{
+  padding-left: 2rem;
+}
+.list{
+  padding-bottom: 2rem;
+}
+:host ::ng-deep .dropdown-list{
+  width: 200px !important;
+  flex-direction: row-reverse;
+}
+.btn-cont{
+  padding-left: 1rem !important;
+  padding-right: 1rem !important;
+  padding-bottom: 1rem !important;
+}
+#subUserForm{
+  display: none;
+}
+.mainLbl{
+  align-self: center;
+  font-size: large;
+}
+
+.btn{
+  width: 8rem !important;
+}
+
+.mainLbl{
+  color: red;
+  font-weight: bold;
+  padding-bottom: 1rem;
+  font-size: 25px;
+}
+
+ng-multiselect-dropdown{
+  width: 7rem !important;
+  display: inline-block !important;
+}

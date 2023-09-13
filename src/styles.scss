@@ -1,0 +1,20 @@
+@import 'themes';
+
+@import '~@nebular/theme/styles/globals';
+
+@import '~animate.css/animate.min';
+
+
+@include nb-install() {
+  @include nb-theme-global();
+};
+/* You can add global styles to this file, and also import other style files */
+@import './app/@theme/styles/themes';
+
+
+
+    .background{
+        color:nb-theme(plainTextA)!important;
+        background-color:nb-theme(slide-out-background)!important;
+    }
+

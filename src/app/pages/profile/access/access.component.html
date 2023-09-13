@@ -1,0 +1,79 @@
+<div class="main-container">
+    <div class="sub-container">
+        <div class="title">
+            Actualizar contraseña
+        </div>
+
+        <div>
+            <div class="field-container">
+                <mat-form-field class="profile-field">
+                    <mat-label>Contraseña actual</mat-label>
+                    <input maxlength=63 matInput placeholder="Ingresar contraseña actual" [type]="showPrevKey ? 'text' : 'password'" [(ngModel)]="oldKey"
+                    (keyup)="setOldKey($event)">                  
+                </mat-form-field>
+        
+                <nb-checkbox class="toggle-btn" (checkedChange)="showPrevKey = $event" checked={{showPrevKey}}>Mostrar</nb-checkbox>
+            </div>
+        
+            <div class="field-container">
+                <mat-form-field class="profile-field">
+                    <mat-label>Contraseña nueva</mat-label>
+                    <input maxlength=63 matInput placeholder="Ingresar nueva contraseña" [type]="showNewKey ? 'text' : 'password'" [(ngModel)]="newKey"
+                    (keyup)="setNewKey($event)">                  
+                </mat-form-field>
+        
+                <nb-checkbox class="toggle-btn" (checkedChange)="showNewKey = $event" checked={{showNewKey}}>Mostrar</nb-checkbox>
+            </div>
+
+            <div class="field-container">
+                <mat-form-field class="profile-field">
+                    <mat-label>Repetición de contraseña nueva</mat-label>
+                    <input maxlength=63 matInput placeholder="Repetir contraseña nueva" [type]="showNewKeyRep ? 'text' : 'password'" [(ngModel)]="newKeyConfirm"
+                    (keyup)="setNewKeyRep($event)">                  
+                </mat-form-field>
+        
+                <nb-checkbox class="toggle-btn" (checkedChange)="showNewKeyRep = $event" checked={{showNewKeyRep}}>Mostrar</nb-checkbox>
+            </div>
+        </div>
+    
+        <button nbButton hero status="success" size="large" [disabled]="saveState" (click)="saveKey()">Actualizar contraseña</button>
+    </div>
+    
+    <mat-divider vertical class="vertical-divider"></mat-divider>
+
+    <div class="sub-container">
+        <div class="title">
+            Actualizar correo
+        </div>
+
+        <div>
+            <div class="field-container">
+                <mat-form-field class="profile-field">
+                    <mat-label>Contraseña actual</mat-label>
+                    <input maxlength=63 matInput placeholder="Ingresar contraseña actual" [type]="showPrevKeyMail ? 'text' : 'password'" [(ngModel)]="newMailKeyCheck"
+                    (keyup)="setNewMailKeyCheck($event)">                  
+                </mat-form-field>
+        
+                <nb-checkbox class="toggle-btn" (checkedChange)="showPrevKeyMail = $event" checked={{showPrevKeyMail}}>Mostrar</nb-checkbox>
+            </div>
+        
+            <div class="field-container">
+                <mat-form-field class="profile-field">
+                    <mat-label>Nuevo correo</mat-label>
+                    <input maxlength=63 matInput placeholder="Ingresar nuevo correo" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" [(ngModel)]="newMail"
+                    oninput="this.value = this.value.toLowerCase()" (keyup)="setNewMail($event)">                  
+                </mat-form-field>
+            </div>
+
+            <div class="field-container">
+                <mat-form-field class="profile-field">
+                    <mat-label>Repetición de correo</mat-label>
+                    <input maxlength=63 matInput placeholder="Repetir correo nuevo" pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$" [(ngModel)]="newMailConfirm"
+                    oninput="this.value = this.value.toLowerCase()" (keyup)="setNewMailConfirm($event)">                  
+                </mat-form-field>    
+            </div>
+        </div>
+    
+        <button nbButton hero status="success" size="large" [disabled]="saveState" (click)="saveMail()">Actualizar correo</button>
+    </div>
+</div>

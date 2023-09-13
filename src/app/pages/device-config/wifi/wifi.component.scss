@@ -1,0 +1,35 @@
+.wifi-profile {
+    min-width: 150px;
+    width: 100%;
+    display: block;
+  }
+  
+.profile-field {
+    width: 100%;
+}
+
+.toggle-btn {
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-left: 15px;
+}
+
+.field-container{
+    display: flex;
+    padding-top: 10px;
+}
+
+.misc-container{
+    padding-top: 20px;
+}
+
+.misc-item{
+    display: inline-block;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.sub-container{
+    display: flex;
+    padding-right: 80px;
+}

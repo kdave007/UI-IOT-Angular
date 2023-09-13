@@ -1,0 +1,69 @@
+<div class="columns">
+    <div class="column is-one-third picker-container">
+      <div class="field">
+        <div class="file has-name is-info is-fullwidth">
+            <label class="file-label">
+                <input
+                    class="file-input"
+                    type="file"
+                    name="file"
+                    #fileInput
+                    (change)="onChange(fileInput.files[0])"
+                />
+                <span class="file-cta">
+                
+                    <span class="file-icon">
+                        <fa-icon [icon]="['fas', 'upload']"></fa-icon>
+                    </span>
+                
+                    <span class="file-label">
+                        Actualizar imagen de perfil
+                    </span>
+
+                </span>
+                
+                <span class="file-name">
+                    {{ fileName }}
+                </span>
+            </label>
+        </div>
+    </div>
+  
+      <article class="message" *ngIf="infoMessage">
+        <div class="message-body">
+          {{ infoMessage }}
+        </div>
+      </article>
+  
+      <div class="field" *ngIf="!infoMessage">
+        <div class="control">
+          <progress
+            class="progress is-primary"
+            [attr.value]="progress"
+            max="100"
+          ></progress>
+        </div>
+      </div>
+  
+      <div class="field">
+        <div class="control">
+          <button
+            class="button is-info"
+            (click)="onUpload()"
+            [attr.disabled]="isUploading ? '' : null"
+            [disabled] = "!validImage"
+          >
+            <span class="file-icon">
+                <i class="fas fa-cloud-upload-alt"></i>
+            </span>
+            Subir nueva imagen
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="column">
+      <figure class="image is-128x128">
+        <img [src]="imageUrl" />
+      </figure>
+    </div>
+  </div>

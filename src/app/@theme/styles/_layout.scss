@@ -1,0 +1,13 @@
+@mixin ngx-layout() {
+  @include media-breakpoint-down(is) {
+    .row {
+      margin-left: -10px;
+      margin-right: -10px;
+    }
+  }
+}
+@media ( max-width: 20em ) {
+  nb-toast{
+       max-width: 80% !important;
+  }
+}

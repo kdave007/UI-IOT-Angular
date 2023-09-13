@@ -1,0 +1,453 @@
+<div style="padding-top: 2%;">
+     <div style="padding-left: 1%;
+     padding-bottom: 2%;
+     font-weight: bold;
+     font-size: 1.2rem;
+     font-family: Roboto,'Helvetica Neue',sans-serif;">
+          <span>Horario de carga de compresor</span>
+     </div>
+     
+     <ng-template #customHeader let-day="day" let-locale="locale">   
+          <div class="cal-day-headers ng-star-inserted dynamicBackGround" role="row" >
+               <div class="cal-header cal-past cal-weekend ng-star-inserted" dragoverclass="cal-drag-over" mwldroppable="" role="columnheader" tabindex="0">
+                    <b>Domingo</b>
+               </div>
+               <div class="cal-header cal-future ng-star-inserted" dragoverclass="cal-drag-over" mwldroppable="" role="columnheader" tabindex="0">
+                    <b>Lunes</b>
+               </div>
+               <div class="cal-header cal-future ng-star-inserted" dragoverclass="cal-drag-over" mwldroppable="" role="columnheader" tabindex="0">
+                    <b>Martes</b>
+               </div>
+               <div class="cal-header cal-future ng-star-inserted" dragoverclass="cal-drag-over" mwldroppable="" role="columnheader" tabindex="0">
+                    <b>Miércoles</b>
+               </div>
+               <div class="cal-header cal-future ng-star-inserted" dragoverclass="cal-drag-over" mwldroppable="" role="columnheader" tabindex="0">
+                    <b>Jueves</b>
+               </div>
+               <div class="cal-header cal-future ng-star-inserted" dragoverclass="cal-drag-over" mwldroppable="" role="columnheader" tabindex="0">
+                    <b>Viernes</b>
+               </div>
+               <div class="cal-header cal-future cal-weekend ng-star-inserted" dragoverclass="cal-drag-over" mwldroppable="" role="columnheader" tabindex="0">
+                    <b>Sábado</b>
+               </div>
+          </div>
+     </ng-template>
+
+     <mwl-calendar-week-view
+     [viewDate]="viewDate"
+     [headerTemplate]="customHeader"
+     [events]="events"
+     [refresh]="refresh"
+     (eventClicked)="handleEvent('Clicked', $event.event)"
+     (eventTimesChanged)="eventTimesChanged($event)"
+     >
+     </mwl-calendar-week-view>
+     <br>
+        <div class="titleDiv">
+               Edición de operaciones del calendario     
+        </div>
+      
+          <div class="modal-body width-input textPlain" style="padding: 2%!important;">
+               <nb-select  style="font-size: 1.1rem!important;
+               min-width: 321px !important;"
+               [size]="'medium'" multiple placeholder="Días de Operación" 
+               [(ngModel)]="daysSelected"
+               (selectedChange)="selection($event)">
+                    <nb-option value="0">Domingo</nb-option>
+                    <nb-option value="1">Lunes</nb-option>
+                    <nb-option value="2">Martes</nb-option>
+                    <nb-option value="3">Miércoles</nb-option>
+                    <nb-option value="4">Jueves</nb-option>
+                    <nb-option value="5">Viernes</nb-option>
+                    <nb-option value="6">Sábado</nb-option>
+               </nb-select>
+               <div style="padding-left: 2%;">
+                    <button [disabled]="isAddDisabled" nbButton status="success" (click)="addEvent()">
+                         Agregar 
+                    </button>
+               </div>
+          </div>
+          
+          <div class="table-responsive textPlain">
+               <table class="table table-bordered textPlain">
+                 <thead>
+                   <tr>
+                     <th>Titulo de operación</th>
+                     <th>Seleccionar Día(s)</th>
+                     <th>Inicio</th>
+                     <th>Fin</th>
+                     <th>Quitar</th>
+                   </tr>
+                 </thead>
+                 
+                 <tbody>
+                   <tr *ngFor="let setup of settings ; let i = index">
+                     <td style="display: grid;">
+                         <input
+                           type="text"
+                           class="form-control"
+                           
+                           value="{{setup.title}}"
+                           (change)="editTitle(setup.localID,$event)"
+                         />
+                    </td>
+                    <td style="text-align: center; display: grid;">
+                         <div>
+                              <button nbButton status="warning" (click)="advancedBtn(setup.localID)">Ajustes Avanzados</button>
+                         </div>
+                       </td>
+                     <td style="text-align: center;">
+                         <!-- <span>Compresor activo día(s) completo(s)</span>
+                         <div class="btn-cont" style="padding-top: 3%;">
+                              <nb-toggle 
+                               status="danger" 
+                               [(ngModel)]="setup.allTimeActive" 
+                               (ngModelChange)="allDayEvent($event,setup.localID)"
+                              ></nb-toggle> 
+                         </div> -->
+                         <div>
+                              <nb-select  style="font-size: 1.1rem!important;
+                              min-width: 321px !important;"
+                              [size]="'medium'" multiple 
+                              [selected]="setup.startingDay"
+                              (selectedChange)="operationDays(setup.localID,$event)"
+                              >
+                                   <nb-option value="0">Domingo</nb-option>
+                                   <nb-option value="1">Lunes</nb-option>
+                                   <nb-option value="2">Martes</nb-option>
+                                   <nb-option value="3">Miércoles</nb-option>
+                                   <nb-option value="4">Jueves</nb-option>
+                                   <nb-option value="5">Viernes</nb-option>
+                                   <nb-option value="6" >Sábado</nb-option>
+                              </nb-select>
+                         </div>
+                    </td>
+                     <td style="text-align: center;">
+                         <!-- <div>
+                              <nb-select style="font-size: 1.1rem!important;
+                              max-width: 180px!important; min-width: 180px!important;"
+                              [size]="'medium'"  placeholder="Día de la semana" 
+                              (selectedChange)="operationDays(setup.localID,$event)"
+                              [(ngModel)]="setup.startingDay"
+                              (ngModelChange)="refresh.next()"
+                              (change)="updateSubject()"
+                              [disabled]="disableInput.startDay[setup.localID]"
+                              >
+                                   <nb-option value="0">Domingo</nb-option>
+                                   <nb-option value="1">Lunes</nb-option>
+                                   <nb-option value="2">Martes</nb-option>
+                                   <nb-option value="3">Miércoles</nb-option>
+                                   <nb-option value="4">Jueves</nb-option>
+                                   <nb-option value="5">Viernes</nb-option>
+                                   <nb-option value="6">Sábado</nb-option>
+                              </nb-select>
+                         </div> -->
+                         
+                         <div style="display: flex; justify-content: center;">
+                              <div style="padding: 1% 2%;">
+                                   <span>Hora</span>
+                                   <input
+                                        class="form-control"
+                                        type="number"
+                                        min="0"
+                                        max="23"
+                                        [(ngModel)]="setup.start.H"
+                                        (change)="inputChangeDetected(setup.localID)"
+                                        (ngModelChange)="refresh.next()"
+                                        placeholder="0"
+                                        [disabled]="disableInput.startHour[setup.localID]"
+                                   />
+                              </div>
+                              <div style="padding: 1% 2%;">
+                                   <span>Minutos</span>
+                                   <input
+                                        class="form-control"
+                                        type="number"
+                                        min="0"
+                                        max="59"
+                                        [(ngModel)]="setup.start.M"
+                                        (change)="inputChangeDetected(setup.localID)"
+                                        (ngModelChange)="refresh.next()"
+                                        placeholder="0"
+                                        [disabled]="disableInput.startMin[setup.localID]"
+                                   />
+                              </div>
+                         </div>
+                    </td>
+                
+                     <td style="text-align: center;">
+                         <!-- <div>
+                              <nb-select style="font-size: 1.1rem!important;
+                              max-width: 180px!important; min-width: 180px!important;"
+                              [size]="'medium'"  placeholder="Día de la semana" 
+                              (selectedChange)="inputEndDay($event,setup.localID)"
+                              [(ngModel)]="setup.endingDay[0]"
+                              (change)="updateSubject()"
+                              (ngModelChange)="refresh.next()"
+                              [disabled]="disableInput.endDay[setup.localID]"
+                              >
+                              <nb-option value="{{setup.startingDay}}">{{ getDayName(false,setup.startingDay) }}</nb-option>
+                              <nb-option value="{{(conversionNextDay(setup.startingDay))}}">{{ getDayName(true,setup.startingDay) }}</nb-option>
+
+                              </nb-select>
+                         </div> -->
+                         <div style="display: flex; justify-content: center; ">
+                              <div style="padding: 1% 2%;">
+                                   <span>Horas</span>
+                                   <input
+                                        class="form-control"
+                                        type="number"
+                                        min="0"
+                                        max="23"
+                                        [(ngModel)]="setup.end.H"
+                                        (change)="inputChangeDetected(setup.localID)"
+                                        (ngModelChange)="refresh.next()"
+                                        placeholder="0"
+                                        [disabled]="disableInput.endHour[setup.localID]"
+                                   />
+                              </div>
+                              <div style="padding: 1% 2%;">
+                                   <span>Minutos</span>
+                                   <input 
+                                        id="endM"
+                                        class="form-control"
+                                        type="number"
+                                        min="0"
+                                        max="59"
+                                        [(ngModel)]="setup.end.M"
+                                        (change)="inputChangeDetected(setup.localID)"
+                                        (ngModelChange)="refresh.next()"
+                                        placeholder="0"
+                                        [disabled]="disableInput.endMin[setup.localID]"
+                                   >
+                              </div>
+                         </div>
+                     </td>
+                     
+                     <td style="text-align: center;">
+                       <button nbButton status="danger" (click)="deleteEvent(setup.localID)">
+                         Borrar
+                       </button>
+                     </td>
+                   </tr>
+                 </tbody>
+               </table>
+             </div> 
+     
+        
+        <ng-template clas="textPlain" #modalContent let-ref="dialogRef">
+          <nb-card style="max-height: 95%;" >
+               <nb-card-header style="font-weight: bold;" >Configuración avanzada - {{ dialogData.title }}</nb-card-header>
+               <nb-card-body class="textPlain">
+                    <div class="modal-body responsive-switch">
+                         
+                         <div style="padding: 3% 0%;" >
+                              <div class="importantFrame">
+                                   <div style="padding-bottom: 2%;">
+                                        <span> Duración de rango de operación: <br>{{ dialogData.timeRange.maxH }} Hora(s) y {{ dialogData.timeRange.maxM }} Minuto(s). </span>
+                                   </div>
+                                   <div style="padding-bottom: 2%;">
+                                        <span> Duración neta de encendido del compresor: <br>{{ setAllowedOpTimeLabel(dialogData.timeRange,dialogData.newSetup.timeout)}}. </span>
+                                   </div>
+                                   <div class="importantNote">
+                                        <span>La duración de rango operación permitida es el rango total que operará el compresor en un horario establecido, sin embargo, dentro de ese horario, se puede especificar que el compresor solo se encienda un periodo específico dentro del rango, de lo contrario se encenderá el rango completo.</span>
+                                        <br />
+                                        <span>Importante: Cada vez que el horario de Inicio ó de Fin de esta operación sea modificado en la vista principal, esta configuración se reiniciara a valores por default.</span>
+                                   </div>
+                              </div>
+                         </div>
+
+                         <table class="table table-bordered ">
+                              <tbody>
+                                   <th class="alignment-td" style="font-weight: bold;">Tiempo de funcionamiento de compresor </th>
+                                   <tr>
+                                        <td class="alignment-td">
+                                             
+                                             <div class="btn-cont textPlain"  style="display: flex;">
+                                                  <div style="padding-top: 5px;">
+                                                       <span >Rango completo</span>
+                                                  </div>
+                                                  <div style="padding-left: 10px;">
+                                                       <nb-toggle status="warning" 
+                                                       
+                                                       [(ngModel)]="dialogData.inputDisabled.timeout" 
+                                                       (change)="setInputsNull($event,'timeout')"></nb-toggle> 
+                                                  </div>
+                                             </div>
+
+                                             <div class="alignment-td"> 
+                                                  <div >
+                                                       <div style="display: grid;">
+                                                            <span>Horas: </span>
+                                                            <input nbInput class="inputPicker" type="number" placeholder="0" id="" max="{{dialogData.timeRange.maxH}}" min="0"
+                                                            [disabled]="dialogData.inputDisabled.timeout"
+                                                            [(ngModel)]="dialogData.newSetup.timeout.H"
+                                                            (change)="dialogData.newSetup.timeout.M=resetMinuteInput(dialogData.timeRange,dialogData.newSetup.timeout)"
+                                                            >
+                                                       </div>
+                                                       <div style="display: grid;">
+                                                            <span  style="padding-right: 6%;" >Minutos: </span>
+                                                            <input nbInput class="inputPicker" type="number" placeholder="0" id="" 
+                                                            max="{{ setMaxMinute(dialogData.timeRange,dialogData.newSetup.timeout.H)}}" 
+                                                            min="{{ (dialogData.newSetup.timeout.H>0)? 0 : 1 }}"
+                                                            [disabled]="dialogData.inputDisabled.timeout"
+                                                            [(ngModel)]="dialogData.newSetup.timeout.M"
+                                                            
+                                                            >
+                                                       </div>
+                                                  </div>
+                                                  <div style="padding-top: 20px; max-width: fit-content;">
+                                                       <span>*Selecciona si el compresor se encenderá el rango completo del horario que se estableció o especifique el periodo de tiempo de encendido dentro del rango.</span>
+                                                  </div>
+                                             </div>
+
+                                        </td>
+                                   </tr>
+                              </tbody>
+                         </table>
+
+                         <table class="table table-bordered ">
+                              <tbody>
+                                   <th class="alignment-td " style="font-weight: bold;">
+                                        Límite máximo de conexiones permitidas 
+                                   </th>   
+                                   <tr>
+                                        <td class="alignment-td" >
+                                             
+                                             <div class="btn-cont " style="display: flex;" >
+                                                  <div style="padding-top: 5px;" >
+                                                       <span >Sin límite de conexiones</span>
+                                                  </div>
+                                                  <div style="padding-left: 10px;">
+                                                       <nb-toggle status="warning" 
+                                                       
+                                                       [checked]="(dialogData.newSetup.ON_n == null) ? true : false"
+                                                       (change)="setInputsNull($event,'ON_n')"></nb-toggle> 
+                                                  </div>     
+                                             </div>
+                                        
+                                             <div>
+                                                  <div>
+                                                       <span  style="padding-right: 2%;" >Límite de conexiones: </span>
+                                                       <input nbInput class="inputPicker" type="number" placeholder="--" min="1" max="20" 
+                                                       [disabled]="dialogData.inputDisabled.ON_n"
+                                                       [(ngModel)]="dialogData.newSetup.ON_n"
+          
+                                                       >
+                                                  </div>
+                                             </div>
+                                             <div style="padding-top: 20px; max-width: fit-content;">
+                                                  <span>*Si se detecta que la alimentación esta desconectada, se apagará automáticamente el compresor, en cuanto se detecte alimentación, se conectará/encenderá nuevamente el compresor, pero se puede limitar el número de intentos.</span>
+                                             </div>
+                                        </td>
+                                   </tr>
+                              </tbody>
+                         </table>
+
+                         <table class="table table-bordered " >
+                              <tbody>
+                                   <th>Tiempo para considerar como una desconexión</th>
+                                   <tr>
+                                        <td class="alignment-td" >
+                                        
+                                             
+                                             <div class="btn-cont" style="display: flex;" >
+                                                  <div style="padding-top: 5px;">
+                                                       <span >definir tiempo considerado como desconexión </span>
+                                                  </div>
+                                                  <div style="padding-left: 10px;">
+                                                       <nb-toggle status="warning"[(ngModel)]="dialogData.inputDisabled.ON_e" (change)="setInputsNull($event,'ON_e')"></nb-toggle> 
+                                                  </div>     
+                                             </div>
+                                        
+                                             <div class="alignment-td"> 
+                                                  <div >
+                                                       <div style="display: grid;">
+                                                            <span  style="padding-right: 6%;" >Minutos: </span>
+                                                            <input nbInput class="inputPicker" type="number" placeholder="0"  
+                                                            max="14" 
+                                                            min="0"
+                                                            [disabled]="(dialogData.inputDisabled.ON_e) ? false : true"
+                                                            [(ngModel)]="dialogData.newSetup.ON_e.M" 
+                                                            >
+                                                       </div>
+                                                       <div style="display: grid;">
+                                                            <span>Segundos: </span>
+                                                            <input nbInput class="inputPicker" type="number" placeholder="0" max="59" min="0"
+                                                            [disabled]="(dialogData.inputDisabled.ON_e) ? false : true"
+                                                            [(ngModel)]="dialogData.newSetup.ON_e.S"
+                                                            >
+                                                       </div>
+                                                  </div>
+                                                  <div style="padding-top: 20px; max-width: fit-content;">
+                                                       <span>*Si dentro del periodo especifico establecido se detecta una desconexión de alimentación, especifique si desea considerar un tiempo mínimo para ignorar o tomar en cuenta que se desconectó la alimentación, para así posteriormente encender el compresor cuando se detecte alimentación.</span>
+                                                  </div>
+                                             </div>    
+                                        </td>
+                                   </tr>
+                              </tbody>
+                         </table>
+
+                               
+
+                              <!-- <table class="table table-bordered">
+                                   <tbody>
+                                        <th class="alignment-td" style="font-weight: bold;">Tomar la suma total de cada reconexión del compresor</th>
+                                        <tr>
+                                             <td class="alignment-td" style="text-align: center;">
+                                                  <span>Sumar tiempos de reconexión </span>
+                                                  <div class="btn-cont" style="padding-top: 3%;">
+                                                       <nb-toggle status="warning" [(ngModel)]="dialogData.newSetup.incremental"></nb-toggle> 
+                                                  </div>
+                                             </td>
+                                        </tr>
+                                   </tbody>
+                               </table> -->
+   
+                    </div>
+               </nb-card-body>
+               <nb-card-footer>
+                    <div class="footer-div">
+                         <div style="padding-left: 1%;">
+                              <button nbButton status="success" (click)="acceptDialogEvent(ref,dialogData.localID,3)">Aplicar</button>
+                         </div>
+                         <div style="padding-left: 1%;">
+                              <button nbButton status="danger" (click)="ref.close()">Cancelar</button>
+                         </div>
+                    </div>
+               </nb-card-footer>
+             </nb-card>
+        </ng-template>
+
+        <ng-template #modalContent2 let-ref="dialogRef">
+          <nb-card>
+               <nb-card-header>Configuración avanzada  {{ dialogData.title }}</nb-card-header>
+               <nb-card-body>
+
+                    <!-- <div class="modal-body">
+                         <div >
+                              <span  style="padding-right: 6%;" >Activar solo cuando haya alimentación de conexión: </span>
+                              <div class="btn-cont" style="padding-top: 3%;" >
+                                   <nb-toggle [(ngModel)]="dialogData.newSetup" status="warning" ></nb-toggle> 
+                              </div>
+                         </div>
+                    </div> -->
+                    <div class="btn-cont"  style="display: flex;">
+                         <div style="padding-top: 5px;">
+                              <span >Activar solo cuando haya alimentación de conexión:</span>
+                         </div>
+                         <div style="padding-left: 10px;">
+                              <nb-toggle [(ngModel)]="dialogData.newSetup" status="warning" ></nb-toggle> 
+                         </div>
+                    </div>
+               </nb-card-body>
+               <nb-card-footer>
+                    <div class="footer-div">
+                         <div style="padding-left: 1%;">
+                              <button nbButton status="success" (click)="acceptDialogEvent(ref,dialogData.localID,2)">OK</button>
+                         </div>
+                    </div>
+               </nb-card-footer>
+          </nb-card>
+        </ng-template>
+</div>

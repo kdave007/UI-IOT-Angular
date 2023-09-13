@@ -1,0 +1,41 @@
+<div class="row">
+     <div class="col-lg-6">
+          <nb-card>
+               <nb-card-header>Dispositivo: {{ devId }}</nb-card-header>
+               <nb-card-body class="nb-Body nb-body-custom">
+                    <div>
+                         <span>
+                              Alertas:
+                         </span>
+                         <div>
+                              <div *ngIf="messagesAck; then gridBlock; else waitingBlock">this is ignored</div>
+                              <ng-template #gridBlock>
+                                   <ag-grid-angular
+                                   [ngClass]="clearTheme ? 'ag-theme-balham' : 'ag-theme-balham-dark'"
+                                        #agGrid
+                                        id="myGrid"
+                                        class="ag-table"
+                                        [modules]="modules"
+                                        [columnDefs]="columnDefs"
+                                        [defaultColDef]="defaultColDef"
+                                        [rowData]="rowData"
+                                        [pagination]="true"
+                                        [rowDeselection]="true"
+                                        [groupSelectsChildren]="true"
+                                        [groupSelectsFiltered]="true"
+                                        [rowSelection]="rowSelection"
+                                        (gridReady)="onGridReady($event)">
+                                   </ag-grid-angular>
+                              </ng-template>
+
+                              <ng-template #waitingBlock> 
+                                   <div class="animated infinite flash slow loading-txt">
+                                        Cargando datos... 
+                                   </div>
+                              </ng-template>
+                         </div>
+                    </div>
+               </nb-card-body>
+          </nb-card>
+     </div>   
+</div>         

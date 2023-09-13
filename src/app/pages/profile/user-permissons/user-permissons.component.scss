@@ -1,0 +1,26 @@
+.accordion-header{
+     border-bottom: groove;
+     font-size: 1.1rem;
+     border-color: #0095ff;
+ }
+
+.warning-txt{
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 25px;
+}
+
+.confirm-btn{
+    padding: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 150px;
+}
+
+.confirm-btns{
+    display: flex;
+}
+
+.action-button{
+    margin-left: 10px;
+}

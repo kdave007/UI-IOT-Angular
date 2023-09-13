@@ -1,0 +1,38 @@
+<div>
+     <div>
+         <mat-form-field *ngIf="userSeasonInfo && userSeasonInfo.level<2 && companiesReady" style="padding-right: 15px; padding-inline-start: 10px;">
+             <div> 
+                 <mat-label>Grupo</mat-label>
+                 <mat-select >
+                     <mat-option value={{0}} (click)="usersFamilySelected(0)" >{{"Todos los usuarios"}}</mat-option>
+                     <mat-option *ngFor="let option of companiesList; let i = index"  value={{option.id}} (click)="usersFamilySelected(option.id)"> {{option.companyName}} </mat-option>
+                 </mat-select>
+             </div>
+         </mat-form-field>
+     </div>
+     
+     <div >
+          <ng2-smart-table *ngIf="userSeasonInfo && userSeasonInfo && userSeasonInfo.level<3 && companiesReady" (userRowSelect)="onUserRowSelect($event)" [settings]="settingsTable" [source]="source">
+          </ng2-smart-table>
+     </div>
+
+     <div style="padding-left: 15px; padding: 20px 0px 20px 10px;">
+          <div style="font-weight: 700; padding-bottom: 25px; font-size: 1.2rem;"> Usuario seleccionado </div>
+          <div style="display: flex;">
+               <div style="display: flex; font-weight: 700; padding-right: 20px; font-size: 1.2rem;">  Nombre : </div>
+               <div class="animated infinite flash slow loading-txt" style="padding-right: 20px; font-size: 1.2rem;" *ngIf="currentSelectionUser">{{ currentSelectionUser.name }} </div> 
+               <div style="display: flex; font-weight: 700; padding-right: 20px; font-size: 1.2rem;"> Rol :  </div>
+               <div class="animated infinite flash slow loading-txt" style="padding-right: 20px; font-size: 1.2rem;" *ngIf="currentSelectionUser">{{ currentSelectionUser.levelName }} </div>
+               <div style="display: flex; font-weight: 700; padding-right: 20px; font-size: 1.2rem;"> Permisos :  </div>
+               <div class="animated infinite flash slow loading-txt" style="font-size: 1.2rem;" *ngIf="currentSelectionUser">{{ currentSelectionUser.editableLabel }} </div>
+          </div>
+     </div>
+
+     <div style="padding-left: 10px;">
+        <button (click)="showHelp()" nbButton>Ayuda</button>
+        <div style="padding-top: 20px;" [hidden]="!showHelpText">
+            <p>Selecciona un usuario de la lista y se mostrara como usuario seleccionado, si sus permisos son “Editables” significa que es posible modificar sus permisos, datos, etc.</p>            
+        </div>
+    </div>
+
+</div>     

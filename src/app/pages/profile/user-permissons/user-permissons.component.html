@@ -1,0 +1,68 @@
+<div >
+    <div style="padding-left: 5px; padding-bottom:30px">
+        <button class="action-button" nbButton [disabled]="disabledSaveBtn" status="success" (click)="saveChanges(confirmDialog)">Guardar</button>
+        <button class="action-button" nbButton [disabled]="disabledUndoBtn" status="info" (click)="undoChanges(confirmDialog)">Regresar permisos a valores anteriores</button>
+        <button class="action-button" nbButton [disabled]="disabledRestBtn" status="warning" (click)="restChanges(confirmDialog)">Restablecer valores por default</button>
+    </div>
+
+    <div>
+        <nb-card accent="info">
+        <nb-accordion multi>
+            
+            <nb-accordion-item >
+             <nb-accordion-item-header class="accordion-header">Permisos de configuraciones del dispositivo</nb-accordion-item-header>
+             <nb-accordion-item-body>
+               <div *ngFor=" let PERMISSION of DEVICE_PERMISSIONS_LIST " style="display:flex; padding-top: 20px; padding-left: 25px;"> 
+                <nb-toggle [disabled]="!selectionReady" status="warning" [(ngModel)]="currentUser[PERMISSION.indexKey]" (change)="updateStatus()"></nb-toggle> 
+                <div style="padding-left: 25px; padding-top: 7px;">{{ PERMISSION.text }}</div>
+               </div>
+               
+             </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item >
+                <nb-accordion-item-header  class="accordion-header">Permisos de notificaciones del dispositivo</nb-accordion-item-header>
+                <nb-accordion-item-body>
+                    <mat-form-field  style="padding-right: 15px; padding-inline-start: 10px; width: 50%;">
+                        <div>
+                            <mat-label nbTooltip="{{ALARMS_ACCESS_TEXT}}" nbTooltipStatus="primary" >Tipo de acceso a las alarmas</mat-label>
+                            <mat-select [disabled]="!selectionReady" style="padding-top: 20px;" [(value)]="''+currentUser.alarmsAccessId" >
+                                <mat-option *ngFor="let OPTION of NOTIFICATIONS_P_LIST; let i = index"  value={{i}} (click)="alarmOptionSelection(OPTION.accessId)"> {{OPTION.text}} </mat-option>
+                            </mat-select>
+                        </div>
+                    </mat-form-field>
+
+                    <div>
+                        <button (click)="showHelp()" nbButton>Ayuda</button>
+                        <div style="padding-top: 20px;" [hidden]="!showHelpText">
+                            <p><a style="font-weight: bolder;">Deshabilitado: </a>deniega al usuario el acceso a las alarmas.</p>
+                            <p><a style="font-weight: bolder;">Configuración solo para recibir alarmas por correo:</a> solo permite al usuario activar o desactivar recibir las notificaciones de alarmas.</p>
+                            <p><a style="font-weight: bolder;">Configuración de parámetros de alarmas permitida:</a> permite al usuario activar o desactivar recibir las notificaciones y además habilita el acceso a configurar parámetros de las alarmas.</p>
+                        </div>
+                    </div>
+                </nb-accordion-item-body>
+            </nb-accordion-item>
+
+           </nb-accordion>
+        </nb-card>
+    </div> 
+</div>
+
+<ng-template #confirmDialog>
+    <div>
+         <div class="warning-txt"> {{questionText}} </div>
+
+         <div class="confirm-btns">
+              <button nbButton class="confirm-btn" fullWidth status="info" size="large"
+                   (click)="confirmChanges(false)">
+                   Cancelar
+              </button>
+
+              <button nbButton class="confirm-btn" fullWidth status="danger" size="large"
+                   (click)="confirmChanges(true)">
+                   Confirmar
+              </button>
+         </div>
+
+    </div>
+</ng-template>

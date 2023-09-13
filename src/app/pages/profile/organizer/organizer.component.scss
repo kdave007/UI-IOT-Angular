@@ -1,0 +1,44 @@
+.row {
+    display: inline !important;
+    min-width: 700px;
+}
+
+.col-lg-6 {
+    max-width: 100%!important;
+}
+
+.orgchart{
+    // min-height: 20px !important;
+     //min-width: 20px !important;
+     height: auto !important;
+     width: auto !important;
+     display: block !important;
+     background-image: unset!important;
+}
+
+nb-windows-container nb-window {
+
+  // Anchos de la ventana
+  
+  @media ( max-width: 40em ) {
+    width: 90% !important;
+  }
+
+  @media ( max-width: 30em ) {
+    width: 100% !important;
+  }
+
+  @media ( max-height: 30em ) {
+    height: 100% !important;
+  }
+
+  overflow: scroll !important;
+
+  scrollbar-width: none;
+}
+
+
+nb-windows-container nb-window::-webkit-scrollbar {
+  width: 0px;
+}
+

@@ -1,0 +1,71 @@
+<!-- <mat-list>
+    <div class="customA-cont">
+         
+              <div style="display: flex; align-self: stretch; padding: 15px 0px">
+                   <mat-list-item>
+                        <div class="info-text" style="display: block; align-self: center; ">  
+                              <span class="textPlain" >Activar sistema de preparación de caja congelada:</span>  
+                        </div>
+                        <div class="btn-cont" >
+                             <nb-toggle status="success" checked="true"></nb-toggle> 
+                        </div>
+                   </mat-list-item>       
+              </div>
+         
+         <mat-divider class="divider"></mat-divider>
+         
+         
+         <div style="padding:15px 0px">
+                    <mat-list-item>
+                         <span class="textPlain info-text"  >Configurar potencia de compresor del camión:</span> 
+                         <div style="padding-left: 2%" >
+                              <input nbInput class="inputPicker" type="number" max="10" min="0" value="4.5" >
+                         </div> 
+                         <span class="textPlain info-text">HP</span> 
+                    </mat-list-item> 
+          </div> 
+        
+         
+         <mat-divider class="divider"></mat-divider>
+
+         <div style="padding:15px 0px">
+          <mat-list-item>
+               <span class="textPlain info-text"  >Configurar precio de KW/h:</span> 
+               <div style="padding-left: 2%" >
+                    <input nbInput class="inputPicker" type="number" min="0" value={{kw}} [(disabled)]="SUPER_ACTIONS.disabledPrice">
+               </div> 
+               <span class="textPlain info-text">$ MXN</span> 
+          </mat-list-item> 
+          </div> 
+
+
+          <mat-divider class="divider"></mat-divider>
+
+         <div class="info-text" style="padding:15px 0px">
+              <mat-list-item>
+               <span class="textPlain info-text" >Temperatura deseada en la caja congelada :</span>
+                   <div style="padding-left: 2%" ><input nbInput class="inputPicker" placeholder="Temp" type="number" max="20" min="-45" value="-32"></div> <span class="textPlain info-text">°C</span>
+              </mat-list-item>
+         </div>
+             
+    </div>
+
+    <mat-divider class="divider" ></mat-divider>
+    
+    <div class="info-text">
+         <mat-list-item>
+          <span class="textPlain info-text" >Aplicar esta configuración a todos los dispositivos asignados a este usuario: </span>
+         
+              <div class="btn-cont" >
+                   <nb-toggle status="warning" checked="true"></nb-toggle> 
+              </div>
+         </mat-list-item> 
+    </div>
+
+    <mat-divider class="divider" ></mat-divider> 
+    
+</mat-list> -->
+
+
+<ngx-custom-week-calendar [deviceId]="devId"></ngx-custom-week-calendar>
+ 

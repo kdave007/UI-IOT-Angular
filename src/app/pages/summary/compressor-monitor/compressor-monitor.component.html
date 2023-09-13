@@ -1,0 +1,113 @@
+<div class="row">
+  <div class="col-lg-6">
+      <nb-card>
+          <nb-card-header>Monitor de compresor</nb-card-header>
+          <nb-card-body class="nb-Body">
+            <div [hidden]="defaultDateHidden" class="customA-cont" > <label  style="color: red;" >Rango de fechas por defecto del {{ defaultDate.start }} Al {{ defaultDate.end }}</label></div>
+        
+            <div class="customA-cont">
+                    <input nbInput class="inputPicker" placeholder="Calendario" [nbDatepicker]="formpicker">
+                    <nb-rangepicker #formpicker (rangeChange)="opMonRangeChange($event)"></nb-rangepicker>
+                    <div class="btn-cont" >
+                      <button nbButton hero status="warning" (click)="updateData(true)" [attr.disabled]="opMonUpdateActive ? null : false " >Actualizar</button>
+                    </div>
+              </div> 
+              <div class="table-responsive">
+               <table class="table table-bordered table-striped">
+                  <tbody>
+                      <tr>  
+                        <th>Tiempo diario promedio de carga entre semana</th>
+                        <td class="text-nowrap" *ngIf="weekReady; else emptyList2">{{ compWeekTimes.weekday.days }}: día(s), {{ compWeekTimes.weekday.hours }}: Hora(s), {{ compWeekTimes.weekday.min }}: Minuto(s)</td>
+                        <ng-template #emptyList2>
+                          <td class="text-nowrap">0</td>
+                       </ng-template>
+                      </tr>
+                      <!-- <tr>  
+                        <th>Tiempo diario promedio de carga en fin de semana</th>
+                        <td class="text-nowrap" *ngIf="weekReady; else emptyList">{{ compWeekTimes.weekend.days }}: día(s), {{ compWeekTimes.weekend.hours }}: Hora(s), {{ compWeekTimes.weekend.min }}: Minuto(s)</td>
+                        <ng-template #emptyList>
+                          <td class="text-nowrap">0</td>
+                       </ng-template>
+                      </tr> -->
+                      <tr>  
+                        <th>Días sin carga</th>
+                        <td class="text-nowrap" >{{ compWeekTimes.comp_off.days }}</td>
+                      </tr>
+                    </tbody>
+               </table>
+              </div>
+
+              <!-- <div class="table-responsive">
+                <table class="table table-bordered table-striped">
+                   <tbody>
+                       <tr>  
+                         <th>Tiempo total del compresor activo (desde que se instaló dispositivo en el camión):</th>
+                         <td class="text-nowrap" *ngIf="powconReady; else emptyList"> {{ powerConsumption.days }}: Día(s), {{ powerConsumption.hours }}: Hora(s), {{ powerConsumption.min }}: Minuto(s)</td>
+                         <ng-template #emptyList>
+                           <td class="text-nowrap">0</td>
+                        </ng-template>
+                       </tr>
+                       <tr>  
+                         <th>Consumo total energético del compresor (desde que se instaló dispositivo en el camión):</th>
+                         <td class="text-nowrap" >{{ (powerConsumption.kwHour).toFixed(2) }} Kw/H</td>
+                       </tr>
+                       <tr>  
+                          <th>Tiempo total del compresor activo (en el periodo de fechas seleccionado):</th>
+                          <td class="text-nowrap" *ngIf="powDynConReady; else emptyList"> {{ dynamicPowerCon.days }}: Día(s), {{ dynamicPowerCon.hours }}: Hora(s), {{ dynamicPowerCon.min }}: Minuto(s)</td>
+                         <ng-template #emptyList>
+                           <td class="text-nowrap">0</td>
+                        </ng-template>
+                      </tr>
+                       <tr>  
+                          <th>Consumo energético del compresor (en el periodo de fechas seleccionado):</th>
+                          <td class="text-nowrap" >{{ (dynamicPowerCon.kwHour).toFixed(2) }} Kw/H</td>
+                      </tr>
+                        <tr>  
+                          <th>Ahorro energético:</th>
+                          <td class="text-nowrap" >0 %</td>
+                      </tr>
+                      <tr>  
+                        <th>Ahorro energético en pesos:</th>
+                        <td class="text-nowrap" >$0.00</td>
+                     </tr>
+                     <tr>  
+                      <th>Precio el KW:</th>
+                      <td class="text-nowrap" >$0.00</td>
+                   </tr>
+                    </tbody>
+                </table>
+               </div> -->
+               
+               <nb-accordion multi>
+                <nb-accordion-item>
+                  <nb-accordion-item-header class="custom-accordion-header">Intervalos del compresor encendido</nb-accordion-item-header>
+                    <nb-accordion-item-body>
+                        <div *ngIf="showIntervalsTable; else emptyTableA" class="cont-alerts">
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Inicio</th>
+                                        <th>Final</th>
+                                        <th>Duración</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor='let x of chosenPeriods; let i = index'>
+                                        <td class="text-nowrap">{{ x.start }}</td>
+                                        <td class="text-nowrap">{{ x.end }}</td>
+                                        <td class="text-nowrap">{{ x.sortedTotal.days }} Día(s),{{ x.sortedTotal.hours }} Hora(s), {{ x.sortedTotal.min }} Minuto(s)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <ng-template #emptyTableA>
+                            <td class="text-nowrap">Seleccione un rango de fechas...</td>
+                         </ng-template>
+                    </nb-accordion-item-body>
+                </nb-accordion-item>
+              </nb-accordion>
+          </nb-card-body>
+      </nb-card>
+  </div>
+</div>  
+

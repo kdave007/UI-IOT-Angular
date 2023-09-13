@@ -1,0 +1,257 @@
+<div class="container">
+  <br>
+  <div *ngIf="rawTempsL && maxminTempsL && meanTempsL && kineticL">
+    <button nbButton hero status="warning" style="margin:auto;display:block" (click)="downloadPDF()">Descargar en PDF</button>
+  </div>
+  <div class="page">
+    <div id="htmlData">
+      <img src="../../../../assets/images/PDFHeader.png" width=100%>
+      <h5>Reporte de temperaturas</h5>
+      <div>
+        <h6>{{ DeviceInfo.Empresa }}</h6>
+        <h6>Placa de la unidad: {{ DeviceInfo.Placa }}</h6>
+        <h6>Ruta: {{ DeviceInfo.Ruta }}, Dispositivo: {{DeviceInfo.Alias}}, Generación: {{DeviceInfo.Generacion}}</h6>
+      </div>
+      <div *ngIf="rawTempsL && maxminTempsL && meanTempsL && kineticL; else RF">
+        <h6>Rango de fechas de muestreo: {{ (rawTemps['datesRange'].start) | date:'mediumDate' }} al {{ (rawTemps['datesRange'].end) | date:'mediumDate' }}</h6>
+        <table class="tableR">
+          <tr class="table-primary">
+            <th>Termistor</th>
+            <th>Temp. máxima</th>
+            <th>Temp. mínima</th>
+            <th>Temp. promedio</th>
+            <th>Temp. cinética</th>
+            <th>No. muestras</th>
+          </tr>
+          <!-- <tr>
+            <td>Termistor 1</td>
+            <td>{{ maxminTemps.maxT1 | number:'1.0-1' }} °C</td>
+            <td>{{ maxminTemps.minT1 | number:'1.0-1' }} °C</td>
+            <td>{{ meanTemps.plate | number:'1.0-1'}} °C</td>
+            <td>{{ kinetic.mkt1 | number:'1.0-1'}} °C</td>
+            <td>{{ rawTemps["samples"]?.length }} </td>
+          </tr>
+          <tr>
+            <td>Termistor 2</td>
+            <td>{{ maxminTemps.maxT2 | number:'1.0-1' }} °C</td>
+            <td>{{ maxminTemps.minT2 | number:'1.0-1' }} °C</td>
+            <td> {{ meanTemps.box | number:'1.0-1'}} °C</td>
+            <td>{{ kinetic.mkt2 | number:'1.0-1'}} °C</td>
+            <td> {{ rawTemps["samples"]?.length }} </td>
+          </tr> -->
+          <tr>
+            <td>{{ DeviceInfo.Thermistor3 }}</td>
+            <td>{{ maxminTemps.maxT3 | number:'1.0-1' }} °C</td>
+            <td>{{ maxminTemps.minT3 | number:'1.0-1' }} °C</td>
+            <td>{{ meanTemps.plate | number:'1.0-1'}} °C</td>
+            <td>{{ kinetic.mkt3 | number:'1.0-1'}} °C</td>
+            <td>{{ rawTemps["samples"]?.length }} </td>
+          </tr>
+          <tr>
+            <td>{{ DeviceInfo.Thermistor4 }}</td>
+            <td>{{ maxminTemps.maxT4 | number:'1.0-1' }} °C</td>
+            <td>{{ maxminTemps.minT4 | number:'1.0-1' }} °C</td>
+            <td> {{ meanTemps.box | number:'1.0-1'}} °C</td>
+            <td>{{ kinetic.mkt4 | number:'1.0-1'}} °C</td>
+            <td> {{ rawTemps["samples"]?.length }} </td>
+          </tr>
+        </table> <!-- Primera tabla -->
+      </div>
+      <div class="chartJS"> <!-- !!!Chart!!! -->
+        <br>
+        <canvas class="chartCanvas" id="PDFChart"></canvas>
+      </div> <!-- !!!Chart!!! -->
+      <h6>Temperaturas en la cámara de refrigeración</h6>
+      <div *ngIf="tempIntervalsL && maxminTempsL; else LM">
+        <h6>Intervalos dentro y fuera de los límites superior ({{ tempIntervals.limits.lower }}°C) e inferior ({{ tempIntervals.limits.upper }}°C).</h6>
+        <table class="tableR">
+          <tr class="table-primary">
+            <th>Termistor</th>
+            <th>Temp. máxima</th>
+            <th>Temp. mínima</th>
+            <th>Superiores a {{ tempIntervals.limits.lower }}°C</th>
+            <th>Inferiores a {{ tempIntervals.limits.upper }}°C</th>
+          </tr>
+          <!-- <tr>
+            <td>Termistor 1</td>
+            <td>{{ maxminTemps.maxT1 | number:'1.0-1' }} °C</td>
+            <td>{{ maxminTemps.minT1 | number:'1.0-1' }} °C</td>
+            <td> {{ tempIntervals["plate"]["in"]?.length }} </td>
+            <td> {{ tempIntervals["plate"]["off"]?.length }} </td>
+          </tr>
+          <tr>
+            <td>Termistor 2</td>
+            <td>{{ maxminTemps.maxT2 | number:'1.0-1' }} °C</td>
+            <td>{{ maxminTemps.minT2 | number:'1.0-1' }} °C</td>
+            <td> {{ tempIntervals["box"]["in"]?.length }} </td>
+            <td> {{ tempIntervals["box"]["off"]?.length }} </td>
+          </tr> -->
+          <tr> 
+            <td>{{ DeviceInfo.Thermistor3 }}</td>
+            <td>{{ maxminTemps.maxT3 | number:'1.0-1' }} °C</td>
+            <td>{{ maxminTemps.minT3 | number:'1.0-1' }} °C</td>
+            <td> {{ superioresPlate?.length }} </td>
+            <td> {{ inferioresPlate?.length }} </td>
+          </tr>
+          <tr>
+            <td>{{ DeviceInfo.Thermistor4 }}</td>
+            <td>{{ maxminTemps.maxT4 | number:'1.0-1' }} °C</td>
+            <td>{{ maxminTemps.minT4 | number:'1.0-1' }} °C</td>
+            <td> {{ superioresBox?.length }} </td>
+            <td> {{ inferioresBox?.length }} </td>
+          </tr>
+        </table> <!-- Tabla de Intervalos -->
+      </div>
+    </div> <!-- !!!htmlData!!! -->
+    <!-- !!! !!! Canvas PDF End!!! !!! -->
+  </div> <!-- Page -->
+  <div *ngIf="tempIntervalsL && maxminTempsL; else EmptyPage" class="page">
+    <div id="Tables">
+      <br>
+      <table id="IntervalosM1" class="minmaxTab">
+        <thead>
+          <tr>
+            <th colspan="6">{{ DeviceInfo.Thermistor3 }}: Intervalos Superiores a {{ tempIntervals.limits.lower }}°C</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>   </th>
+            <th>Temp. Inicial</th>
+            <th>Temp. Pico</th>
+            <th>Fecha Inicial</th>
+            <th>Fecha Final</th>
+            <th>Duración del intervalo</th>
+          </tr>
+          <tr *ngFor="let interval of superioresPlate; index as x">
+            <td>{{ x+1 }}</td>
+            <td>{{interval.init.temp}}°C</td>
+            <td>{{interval.peak}}°C</td>
+            <td>{{interval.init.dateTime}}</td>
+            <td>{{interval.end.dateTime}}</td>
+            <td>{{interval.totalTime.days}} día(s), {{interval.totalTime.hours}} Hora(s), {{interval.totalTime.min}} Minuto(s)</td>
+        </tbody>
+      </table> <!-- MaxMin1 -->
+      <br>
+      <table id="Intervalosm1" class="minmaxTab">
+        <thead>
+          <tr>
+            <th colspan="6">{{ DeviceInfo.Thermistor3 }}: Intervalos Inferiores a {{ tempIntervals.limits.upper }}°C</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>   </th>
+            <th>Temp. Inicial</th>
+            <th>Temp. Pico</th>
+            <th>Fecha Inicial</th>
+            <th>Fecha Final</th>
+            <th>Duración del intervalo</th>
+          </tr>
+          <tr *ngFor="let interval of inferioresPlate; index as x">
+            <td>{{ x+1 }}</td>
+            <td>{{interval.init.temp}}°C</td>
+            <td>{{interval.peak}}°C</td>
+            <td>{{interval.init.dateTime}}</td>
+            <td>{{interval.end.dateTime}}</td>
+            <td>{{interval.totalTime.days}} día(s), {{interval.totalTime.hours}} Hora(s), {{interval.totalTime.min}} Minuto(s)</td>
+        </tbody>
+      </table> <!-- MaxMin2-->
+      <br>
+      <table id="IntervalosM2" class="minmaxTab">
+        <thead>
+          <tr>
+            <th colspan="6">{{ DeviceInfo.Thermistor4 }}: Intervalos Superiores a {{ tempIntervals.limits.lower }}°C</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>   </th>
+            <th>Temp. Inicial</th>
+            <th>Temp. Pico</th>
+            <th>Fecha Inicial</th>
+            <th>Fecha Final</th>
+            <th>Duración del intervalo</th>
+          </tr>
+          <tr *ngFor="let interval of superioresBox; index as x">
+            <td>{{ x+1 }}</td>
+            <td>{{interval.init.temp}}°C</td>
+            <td>{{interval.peak}}°C</td>
+            <td>{{interval.init.dateTime}}</td>
+            <td>{{interval.end.dateTime}}</td>
+            <td>{{interval.totalTime.days}} día(s), {{interval.totalTime.hours}} Hora(s), {{interval.totalTime.min}} Minuto(s)</td>
+        </tbody>
+      </table> <!-- MinMax3 -->
+      <br>
+      <table id="Intervalosm2" class="minmaxTab">
+        <thead>
+          <tr>
+            <th colspan="6">{{ DeviceInfo.Thermistor4 }}: Intervalos Inferiores a {{ tempIntervals.limits.upper }}°C</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>   </th>
+            <th>Temp. Inicial</th>
+            <th>Temp. Pico</th>
+            <th>Fecha Inicial</th>
+            <th>Fecha Final</th>
+            <th>Duración del intervalo</th>
+          </tr>
+          <tr *ngFor="let interval of inferioresBox; index as x">
+            <td>{{ x+1 }}</td>
+            <td>{{interval.init.temp}}°C</td>
+            <td>{{interval.peak}}°C</td>
+            <td>{{interval.init.dateTime}}</td>
+            <td>{{interval.end.dateTime}}</td>
+            <td>{{interval.totalTime.days}} día(s), {{interval.totalTime.hours}} Hora(s), {{interval.totalTime.min}} Minuto(s)</td>
+        </tbody>
+      </table> <!-- MaxMin4 -->
+    </div> <!-- Tables -->
+  </div> <!-- PageSamples -->
+  <div *ngIf="rawTempsL && maxminTempsL && meanTempsL && kineticL; else EmptyPage" class="page">
+    <div id="Tables">
+      <br>
+      <table id="Muestras" class="minmaxTab">
+        <thead>
+          <tr>
+            <th colspan="4">Muestras Correspondientes al rango de fecha: {{ (rawTemps['datesRange'].start) | date:'mediumDate' }} al {{ (rawTemps['datesRange'].end) | date:'mediumDate' }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>   </th>
+            <th>Fecha</th>
+            <th>{{ DeviceInfo.Thermistor3 }}</th>
+            <th>{{ DeviceInfo.Thermistor4 }}</th>
+          </tr>
+          <tr *ngFor="let sample of rawTemps.samples; index as x">
+            <td>{{ x+1 }}</td>
+            <td>{{sample.dateTime}}</td>
+            <td>{{sample.temp3}}°C</td>
+            <td>{{sample.temp4}}°C</td>
+        </tbody>
+      </table> <!-- Samples -->
+      <br>
+    </div> <!-- Tables -->
+  </div> <!-- PageSamples -->
+  <br>
+</div> <!-- Container -->
+
+
+<!-- Plantillas -->
+<ng-template #RF>
+  <div>
+    <h6>Seleccione un rango de fechas</h6>
+  </div>
+</ng-template>
+
+<ng-template #LM>
+  <div>
+    <h6>Seleccione limites superior e inferior</h6>
+  </div>
+</ng-template>
+
+<ng-template #EmptyPage>
+  <div> </div>
+</ng-template>

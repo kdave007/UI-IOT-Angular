@@ -1,0 +1,84 @@
+
+.list-cont{
+     padding-left: 2rem;
+}
+.list{
+     padding-bottom: 2rem;
+}
+:host ::ng-deep .dropdown-list{
+     width: 200px !important;
+     flex-direction: row-reverse;
+}
+.accordion-header{
+     border-bottom: groove;
+     font-size: 1.1rem;
+     border-color: #0095ff;
+ }
+
+.title-text{
+     font-weight: bold;
+     //font-size: 1rem;
+     font-family: Roboto,'Helvetica Neue',sans-serif;
+ }
+
+ .row-cont{
+     padding: 1%;
+     display: flex;
+     align-items: center;
+ }
+ .selected-container{
+     padding-top:15px; overflow-y: scroll; height: 380px; min-width: 60%; padding-left: 3%;
+ } 
+
+ .field-container{
+     display: flex;
+     padding-top: 10px;
+ }
+ 
+ .profile-field {
+     width: 100%;
+ }
+ 
+ .toggle-btn {
+     margin-top: auto;
+     margin-bottom: auto;
+     padding-left: 15px;
+ }
+ 
+ .main-container{
+     display: flex;
+     min-width: 700px;
+ }
+ 
+ .sub-container{
+     padding-bottom: 30px;
+     margin-right: auto;
+     width: 50%;
+ }
+ 
+ .vertical-divider{
+     margin-left: 1rem;
+     margin-right: 1.5rem;
+ }
+ 
+ .title{
+     text-align: center;
+     //font-size: 25px;   
+ }
+
+.warning-txt {
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 25px;
+}
+
+.confirm-btn {
+    padding: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 150px;
+}
+
+.confirm-btns {
+    display: flex;
+}

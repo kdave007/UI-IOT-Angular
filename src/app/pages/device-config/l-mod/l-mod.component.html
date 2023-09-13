@@ -1,0 +1,46 @@
+<nb-tabset>
+     <nb-tab *ngFor="let lightModule of LIGHT_MODULES; let i = index" tabTitle="Módulo {{i+1}}">
+         <div class="cal-container">
+
+            <div class="sub-container">
+                <mat-form-field class="misc-item">
+                    <mat-label>Sensor de luz</mat-label>
+                    <mat-select [(ngModel)]="selectedSensor">
+                        <mat-option *ngFor="let lightSensor of LIGHT_SENSORS" value={{lightSensor}}>Sensor {{lightSensor+1}}</mat-option>
+                    </mat-select>
+                </mat-form-field> 
+            </div>
+
+
+             <div class="sub-container">
+
+                <div class="input-frame">
+                    <span class="small-text">Sensor Activo</span>   
+                    <nb-toggle status="basic" [(ngModel)]="lightModule.sensor[selectedSensor].status" ></nb-toggle> 
+                </div>  
+
+                <div class="input-frame" style="align-items:baseline;">
+                    <span class="small-text">Límite mínimo considerado como apertura de puerta</span>   
+                    <input nbInput [(ngModel)]="lightModule.sensor[selectedSensor].treshold" >
+                </div>
+
+                <div class="input-frame" style="align-items:baseline;">
+                    <span class="small-text">Filtro en milisegundos</span>   
+                    <input nbInput [(ngModel)]="lightModule.sensor[selectedSensor].filter" >
+                </div>
+
+                <div class="input-frame">
+                    <span class="small-text">Tomar flanco de subida</span>   
+                    <nb-toggle status="basic" [(ngModel)]="lightModule.sensor[selectedSensor].edge" > </nb-toggle>
+                </div> 
+                
+                <div class="input-frame" style="align-items:baseline;">
+                    <span class="small-text">Dirección numérica de módulo (no cambiar si no sabe lo que hace)</span>   
+                    <input nbInput [(ngModel)]="lightModule.address" type="number">
+                </div>
+            </div>
+ 
+            
+         </div>                
+     </nb-tab>
+ </nb-tabset>

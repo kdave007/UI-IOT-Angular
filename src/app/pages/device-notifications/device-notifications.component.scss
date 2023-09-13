@@ -1,0 +1,59 @@
+@import '../../@theme/styles/themes';
+.row {
+     display: inline !important;
+}
+
+.col-lg-6 {
+     max-width: 100%!important;
+}
+.input-container{
+     padding:5px 0px 10px 0px;
+     display: flex;
+     align-items: flex-end;
+}
+
+
+#myGrid * {
+     background-color: red !important;
+ }
+ 
+ .ag-table{
+     width: 100%; 
+     height: 41rem;
+ }
+ 
+ table {
+     width: 100%;
+ }
+ 
+ .table-content{
+     text-align: center;
+ }
+ 
+ .time-content{
+     width: 180px;
+ }
+ 
+ .loading-txt{
+     font-size: 20px;
+ }
+ 
+ .msg-container{
+     min-width: 1000px;
+ }
+ 
+ @include nb-install-component() {
+     .msg-table, .table-paginator, .ag-table{
+         background-color: nb-theme(background-basic-color-1) !important;
+         color: nb-theme(text-basic-color) !important;
+     }
+ 
+     .table-content, .mat-select-value{
+         color: nb-theme(text-basic-color) !important;
+     }
+ }
+ .mat-sort-header-container {
+     display: table !important;
+     margin-left: auto !important;
+     margin-right: auto !important;
+ }

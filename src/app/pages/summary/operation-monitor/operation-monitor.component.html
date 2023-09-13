@@ -1,0 +1,362 @@
+<div class="row">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>Monitor de operación</nb-card-header>
+      <nb-card-body class="nb-Body">
+          
+        <div class="customA-cont" >
+          <div style="padding-right: 15px;">
+            <div class="customA-cont" > <label  style="color: red;" >Selecciona fechas</label></div>
+            <input nbInput class="inputPicker" placeholder="Calendario" [nbDatepicker]="formpicker">
+            <nb-rangepicker #formpicker (rangeChange)="opMonRangeChange($event)"></nb-rangepicker>
+          </div> 
+            
+          <div class="input-time-container">
+            <div class="input-time-row" style="padding-right: 20px;">
+              <div style=" padding-right:2%; padding-bottom: 5%; color: red;">Horario inicial (Hr : Min)</div>
+              <div style="display: flex;">
+                <input nbInput [(ngModel)]="timeRange.start.hour" class="inputPicker" type="number" min="0" max="23" (change)="cleanRangeHour($event,'start')"> &nbsp; : &nbsp;
+                <input nbInput [(ngModel)]="timeRange.start.min" class="inputPicker" type="number" min="0" max="59" (change)="cleanRangeMin($event,'start')">
+              </div>  
+            </div>
+            <div class="input-time-row">
+              <div style=" padding-right:2%; padding-bottom: 5%; color: red;">Horario final (Hr : Min)</div> 
+              <div style="display: flex;">
+                <input [(ngModel)]="timeRange.end.hour" class="inputPicker" nbInput type="number" min="0" max="23" (change)="cleanRangeHour($event,'end')"> &nbsp; : &nbsp;
+                <input [(ngModel)]="timeRange.end.min" class="inputPicker" nbInput type="number" min="0" max="59" (change)="cleanRangeMin($event,'end')">
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-cont" style="padding-top:31px;">
+            <button nbButton hero status="warning" (click)="updateData(true)" [attr.disabled]="opMonUpdateActive ? null : false " >Actualizar</button>
+          </div>
+
+        </div> 
+        <nb-accordion multi>
+
+            <nb-accordion-item>
+              <nb-accordion-item-header class="custom-accordion-header">Promedios de temperaturas (cámara refrigerada)</nb-accordion-item-header>
+              <nb-accordion-item-body>
+                <div>
+                  <div class="table-responsive">
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th style="text-align: center"> Termistores dentro de la cámara refrigerada </th>
+                          <th style="text-align: center"> Temperatura promedio 
+                            <small>°C</small>
+                          </th>
+                          <th style="text-align: center"> Temperatura cinética 
+                            <small>°C</small>
+                          </th>
+                          <th style="text-align: center"> Total de muestras </th>    
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td class="text-nowrap" scope="row">{{THERM_TITLES.T3}}</td>
+                          <td class="text-nowrap" >{{ plateAverage }}</td>
+                          <td class="text-nowrap" >{{ kinetic.mkt3.toFixed(2) }}</td>
+                          <td class="text-nowrap" >{{ totalSamplesPlate }}</td>
+                        </tr>
+                        <tr>
+                          <td class="text-nowrap" scope="row">{{THERM_TITLES.T4}}</td>
+                          <td class="text-nowrap" >{{ boxAverage }}</td>
+                          <td class="text-nowrap" >{{ kinetic.mkt4.toFixed(2) }}</td>
+                          <td class="text-nowrap" >{{ totalSamplesBox }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <nb-accordion-item>
+              <nb-accordion-item-header class="custom-accordion-header">Temperaturas en la cámara refrigerada</nb-accordion-item-header>
+              <nb-accordion-item-body>
+                <label for="subject">Filtrar intervalos de muestras a partir de limites de temperatura (°C):</label>
+                <div class="customA-cont limit-inputs-wrap">
+                  <a class="limit-text">Limite Inferior</a>
+                  <input nbInput  [(ngModel)]="limits.upper" class="inputPicker" type="number" max="100" min="-90" placeholder="Limite inferior" >
+                  <a class="limit-text">Limite Superior</a>
+                  <input nbInput  [(ngModel)]="limits.lower" class="inputPicker" type="number" max="100" min="-90" placeholder="Limite superior" >
+                  <div class="btn-cont" style="padding-left: 20px;">
+                    <button nbButton outline status="warning" (click)="filterTemps()" [attr.disabled]="activateAlerts ? null : false " >Mostrar Intervalos</button>
+                  </div>
+                  
+                </div>
+                <div *ngIf="showAlertsTbl" class="cont-alerts">
+                  <div  style="padding-bottom: 30px;">
+                      <table class="table table-bordered table-striped">
+                          <thead>
+                              <tr>
+                                  <th  scope="row">Termistor </th>
+                                  <th style="text-align: center"> Temperatura mas alta registrada
+                                    <small>°C</small>
+                                  </th>
+                                  
+                                </tr>
+                          </thead>
+                          <tbody>
+
+                            <tr>
+                              <td class="text-nowrap" scope="row" >{{THERM_TITLES.T3}}</td>
+                              <td style="color: red">{{ (thermistor_3.peak!=null) ? thermistor_3.peak : "NA" }}</td>
+                              
+                            </tr>
+
+                              <tr>
+                                <td class="text-nowrap" scope="row" >{{THERM_TITLES.T4}}</td>
+                                <td  style="color: red">{{ (thermistor_4.peak!=null) ? thermistor_4.peak : "NA" }}</td>
+                             
+                              </tr>
+                              
+                          </tbody>
+                      </table>
+                  </div>
+
+                  <div *ngIf="tbl2" id="dynamic-table-cont" style="padding-bottom: 30px;">
+                    <label class="label-title">Intervalos encontrados fuera de limites ({{THERM_TITLES.T3}}):  </label>
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Temp. Inicial <small>°C</small></th>
+                          <th>Temp. Pico <small>°C</small></th>
+                          <th>Fecha Inicial</th>
+                          <th>Fecha Final</th>
+                          <th>Duración de intervalo</th>
+                        </tr>
+                      </thead>
+                      <TBody>
+                        <tr *ngFor='let x of thermistor_3.off; let i = index'>
+                          <th style="text-align: center" > {{ i+1 }} </th>
+                          <td style="color: rgb(219, 160, 66)">{{ x.init.temp }}</td>
+                          <td style="color: red" >{{ x.peak }}</td>
+                          <td class="text-nowrap">{{ x.init.dateTime }}</td>
+                          <td class="text-nowrap">{{ x.end.dateTime }}</td>
+                          <td class="text-nowrap">{{ x.totalTime.days }} día(s) ,{{ x.totalTime.hours }} Hora(s) , {{ x.totalTime.min }} Minuto(s) </td>
+                        </tr>
+                      </TBody>
+                    </table>
+                  </div>
+
+                  <div *ngIf="tbl2" id="dynamic-table-cont" style="padding-bottom: 30px;">
+                    <label class="label-title">Intervalos encontrados dentro de limites ({{THERM_TITLES.T3}}):  </label>
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Temp. Inicial <small>°C</small></th>
+                          <th>Temp. Pico <small>°C</small></th>
+                          <th>Fecha Inicial</th>
+                          <th>Fecha Final</th>
+                          <th>Duración de intervalo</th>
+                        </tr>
+                      </thead>
+                      <TBody>
+                        <tr *ngFor='let x of thermistor_3.in; let i = index'>
+                          <th style="text-align: center" > {{ i+1 }} </th>
+                          <td style="color: rgb(219, 160, 66)">{{ x.init.temp }}</td>
+                          <td style="color: red" >{{ x.peak }}</td>
+                          <td class="text-nowrap">{{ x.init.dateTime }}</td>
+                          <td class="text-nowrap">{{ x.end.dateTime }}</td>
+                          <td class="text-nowrap">{{ x.totalTime.days }} día(s) ,{{ x.totalTime.hours }} Hora(s) , {{ x.totalTime.min }} Minuto(s) </td>
+                        </tr>
+                      </TBody>
+                    </table>
+                  </div>
+
+                  <div *ngIf="tbl2" id="dynamic-table-cont" style="padding-bottom: 30px;">
+                    <label class="label-title">Intervalos encontrados fuera de limites ({{THERM_TITLES.T4}}):  </label>
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Temp. Inicial <small>°C</small></th>
+                          <th>Temp. Pico <small>°C</small></th>
+                          <th>Fecha Inicial</th>
+                          <th>Fecha Final</th>
+                          <th>Duración de intervalo</th>
+                        </tr>
+                      </thead>
+                      <TBody>
+                        <tr *ngFor='let x of thermistor_4.off; let i = index'>
+                          <th style="text-align: center" > {{ i+1 }} </th>
+                          <td style="color: rgb(219, 160, 66)">{{ x.init.temp }}</td>
+                          <td style="color: red" >{{ x.peak }}</td>
+                          <td class="text-nowrap">{{ x.init.dateTime }}</td>
+                          <td class="text-nowrap">{{ x.end.dateTime }}</td>
+                          <td class="text-nowrap">{{ x.totalTime.days }} día(s) ,{{ x.totalTime.hours }} Hora(s) , {{ x.totalTime.min }} Minuto(s) </td>
+                        </tr>
+                      </TBody>
+                    </table>
+                  </div>
+
+                  <div *ngIf="tbl2" id="dynamic-table-cont" style="padding-bottom: 30px;">
+                    <label class="label-title">Intervalos encontrados dentro de limites ({{THERM_TITLES.T4}}):  </label>
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th></th>
+                          <th>Temp. Inicial <small>°C</small></th>
+                          <th>Temp. Pico <small>°C</small></th>
+                          <th>Fecha Inicial</th>
+                          <th>Fecha Final</th>
+                          <th>Duración de intervalo</th>
+                        </tr>
+                      </thead>
+                      <TBody>
+                        <tr *ngFor='let x of thermistor_4.in; let i = index'>
+                          <th style="text-align: center" > {{ i+1 }} </th>
+                          <td style="color: rgb(219, 160, 66)">{{ x.init.temp }}</td>
+                          <td style="color: red" >{{ x.peak }}</td>
+                          <td class="text-nowrap">{{ x.init.dateTime }}</td>
+                          <td class="text-nowrap">{{ x.end.dateTime }}</td>
+                          <td class="text-nowrap">{{ x.totalTime.days }} día(s) ,{{ x.totalTime.hours }} Hora(s) , {{ x.totalTime.min }} Minuto(s) </td>
+                        </tr>
+                      </TBody>
+                    </table>
+                  </div>
+                  
+                </div>
+              </nb-accordion-item-body>
+            </nb-accordion-item>
+
+            <!-- <nb-accordion-item>
+              <nb-accordion-item-header class="custom-accordion-header">Apertura de Puertas</nb-accordion-item-header>
+              <nb-accordion-item-body>
+                <div *ngIf="showAverageDoors; else emptyTableA" class="cont-alerts">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>No. de puerta: </th>
+                                <th>Tiempo promedio diario de la puerta abierta</th>
+                                <th>Tiempo en total de la puerta abierta</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th>1</th>
+                            <td class="text-nowrap">{{ (averageDoorsTime.g0==0)?averageDoorsTime.g0:averageDoorsTime.g0.hours }}: Hrs, {{ (averageDoorsTime.g0==0)?averageDoorsTime.g0:averageDoorsTime.g0.min }}: Min, {{ (averageDoorsTime.g0==0)?averageDoorsTime.g0:averageDoorsTime.g0.seconds }}: seg</td>
+                            <td class="text-nowrap"> {{ (totalTimeperDoor.g0===undefined) ? 0 : totalTimeperDoor.g0.hours }}: Hrs, {{ (totalTimeperDoor.g0===undefined) ? 0 : totalTimeperDoor.g0.min }}: Min, {{ (totalTimeperDoor.g0===undefined) ? 0 : totalTimeperDoor.g0.seconds }}: seg  </td>
+                          </tr>
+                          <tr>
+                            <th>2</th>
+                            <td class="text-nowrap">{{ (averageDoorsTime.g1==0)?averageDoorsTime.g1:averageDoorsTime.g1.hours }}: Hrs, {{ (averageDoorsTime.g1==0)?averageDoorsTime.g1:averageDoorsTime.g1.min }}: Min, {{ (averageDoorsTime.g1==0)?averageDoorsTime.g1:averageDoorsTime.g1.seconds }}: seg</td>
+                            <td class="text-nowrap"> {{ (totalTimeperDoor.g1===undefined) ? 0 : totalTimeperDoor.g1.hours }}: Hrs, {{ (totalTimeperDoor.g1===undefined) ? 0 : totalTimeperDoor.g1.min }}: Min, {{ (totalTimeperDoor.g1===undefined) ? 0 : totalTimeperDoor.g1.seconds }}: seg  </td>
+                          </tr>
+                          <tr> 
+                            <th>3</th>  
+                            <td class="text-nowrap">{{ (averageDoorsTime.g2==0)?averageDoorsTime.g2:averageDoorsTime.g2.hours }}: Hrs, {{ (averageDoorsTime.g2==0)?averageDoorsTime.g2:averageDoorsTime.g2.min }}: Min, {{ (averageDoorsTime.g2==0)?averageDoorsTime.g2:averageDoorsTime.g2.seconds }}: seg</td>
+                            <td class="text-nowrap"> {{ (totalTimeperDoor.g2===undefined) ? 0 : totalTimeperDoor.g2.hours }}: Hrs, {{ (totalTimeperDoor.g2===undefined) ? 0 : totalTimeperDoor.g2.min }}: Min, {{ (totalTimeperDoor.g2===undefined) ? 0 : totalTimeperDoor.g2.seconds }}: seg  </td>
+                          </tr>
+                          <tr>
+                            <th>4</th>
+                            <td class="text-nowrap">{{ (averageDoorsTime.g3==0)?averageDoorsTime.g3:averageDoorsTime.g3.hours }}: Hrs, {{ (averageDoorsTime.g3==0)?averageDoorsTime.g3:averageDoorsTime.g3.min }}: Min, {{ (averageDoorsTime.g3==0)?averageDoorsTime.g3:averageDoorsTime.g3.seconds }}: seg</td>
+                            <td class="text-nowrap"> {{ (totalTimeperDoor.g3===undefined) ? 0 : totalTimeperDoor.g3.hours }}: Hrs, {{ (totalTimeperDoor.g3===undefined) ? 0 : totalTimeperDoor.g3.min }}: Min, {{ (totalTimeperDoor.g3===undefined) ? 0 : totalTimeperDoor.g3.seconds }}: seg  </td>
+                          </tr>
+                          <tr>
+                            <th>5</th>
+                            <td class="text-nowrap">{{ (averageDoorsTime.g4==0)?averageDoorsTime.g4:averageDoorsTime.g4.hours }}: Hrs, {{ (averageDoorsTime.g4==0)?averageDoorsTime.g4:averageDoorsTime.g4.min }}: Min, {{ (averageDoorsTime.g4==0)?averageDoorsTime.g4:averageDoorsTime.g4.seconds }}: seg</td>
+                            <td class="text-nowrap"> {{ (totalTimeperDoor.g4===undefined) ? 0 : totalTimeperDoor.g4.hours }}: Hrs, {{ (totalTimeperDoor.g4===undefined) ? 0 : totalTimeperDoor.g4.min }}: Min, {{ (totalTimeperDoor.g4===undefined) ? 0 : totalTimeperDoor.g4.seconds }}: seg  </td>
+                          </tr>
+                          <tr>
+                            <th>6</th>
+                            <td class="text-nowrap">{{ (averageDoorsTime.g5==0)?averageDoorsTime.g5:averageDoorsTime.g5.hours }}: Hrs, {{ (averageDoorsTime.g5==0)?averageDoorsTime.g5:averageDoorsTime.g5.min }}: Min, {{ (averageDoorsTime.g5==0)?averageDoorsTime.g5:averageDoorsTime.g5.seconds }}: seg</td>
+                            <td class="text-nowrap"> {{ (totalTimeperDoor.g5===undefined) ? 0 : totalTimeperDoor.g5.hours }}: Hrs, {{ (totalTimeperDoor.g5===undefined) ? 0 : totalTimeperDoor.g5.min }}: Min, {{ (totalTimeperDoor.g5===undefined) ? 0 : totalTimeperDoor.g5.seconds }}: seg  </td>
+                          </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <ng-template #emptyTableA>
+                    <td class="text-nowrap">Seleccione un rango de fechas...</td>
+                 </ng-template>
+                <div style="padding:15px 0px">
+                  <label for="subject">Filtrar intervalos de apertura de puertas:</label>
+                  <div class="customA-cont">
+                    <input nbInput id="inputLimitHrs" class="inputPicker" type="number" min=0 max=100 placeholder="Horas" >
+                    <input nbInput id="inputLimitMin" class="inputPicker" type="number" min=0 max=59 placeholder="Min" >
+                    <input nbInput id="inputLimitSeg" class="inputPicker" type="number" min=0 max=59 placeholder="Seg" >
+                    <div class="btn-cont" >
+                      <button nbButton outline status="warning" (click)="showDoorAlerts()" [attr.disabled]="activateDoorAlerts ? null : false " >Mostrar Intervalos</button>
+                    </div>
+                 
+                  </div>
+                  <div style="display: flex">
+                    <nb-radio
+                    *ngFor="let option of options"
+                    [checked]="option.default"
+                    [value]="option.value"
+                    (click)="doorSelection(option.value)">
+                    {{ option.label }}
+                    </nb-radio>
+                  </div>
+                </div>
+                <div *ngIf="showDoorsA" class="cont-alerts">
+                  <div >
+                  
+                      <table *ngIf="alldoors; else onlyOne"  class="table table-bordered table-striped" style="width: 100%; display: inline-table;">
+                        <div *ngFor='let e of indexKey; let a = index'>
+                        <thead >
+                        </thead>
+                          <tbody style="width: 100%; display: inline-table;">
+                              <tr>
+                                <tr><th  style="text-align: center" >Puerta {{ a+1 }}</th></tr>
+                                <tr>
+                                  <th></th>
+                                  <th style="text-align: center" >Fecha</th>
+                                  <th style="text-align: center" >Duración</th>
+                                </tr>
+                            <tr *ngFor='let x of out["out"+a]; let i = index'>
+                              <th style="text-align: center; width: 10%!important;" > {{ i+1 }} </th>
+                              <td class="text-nowrap;width: 45%!important;" >{{ x.start }}</td>
+                              <td class="text-nowrap;width: 45%!important;">{{ x.hours }} Hora(s) , {{ x.min }} Min. , {{ x.seconds }} seg. </td>
+                            </tr>   
+                        </tbody>
+                      </div>
+                      </table>
+               
+
+                    <ng-template #onlyOne>
+                      <table class="table table-bordered table-striped">
+                        <thead>
+                          <tr>
+                            <th></th>
+                            <th style="text-align: center" >Fecha</th>
+                            <th style="text-align: center" >Duración</th>
+                          </tr>
+                      </thead>
+                        <tbody>
+                          <tr *ngFor='let x of out[outKey]; let i = index'>
+                            <th style="text-align: center" > {{ i+1 }} </th>
+                            <td class="text-nowrap" >{{ x.start }}</td>
+                            <td class="text-nowrap">{{ x.hours }} Hora(s) , {{ x.min }} Min. , {{ x.seconds }} seg. </td>
+                          </tr>   
+                      </tbody>
+                    </table>
+                  </ng-template> 
+
+                  </div>
+                </div>
+              </nb-accordion-item-body>
+            </nb-accordion-item> -->
+            
+            <nb-accordion-item>
+              <nb-accordion-item-header class="custom-accordion-header">Muestras de temperaturas</nb-accordion-item-header>
+              <nb-accordion-item-body>
+                <div>
+                  <ng2-smart-table [settings]="settings" [source]="source">
+                  </ng2-smart-table>
+                
+                </div>
+              </nb-accordion-item-body>
+            </nb-accordion-item> 
+
+          </nb-accordion>        
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>

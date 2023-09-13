@@ -1,0 +1,70 @@
+<div class="main" style="display: flex">
+
+  <!--<div class="scrollable-container">-->
+    <div>
+      <form class="form" id="userForm" >
+        <label for="subject">Nombre:</label>
+        <input nbInput id="subject" type="text" maxlength="20" [value]="userN">
+        <label class="text-label" for="text">Email:</label>
+        <input nbInput id="subjMail" maxlength="60" pattern="^[\w.-]+@[a-zA-Z_]+(\.[a-zA-Z]{2,})+$" type="email" [value]="userE">
+        <label id="level-Label" class="text-label logo animated infinite flash slower" for="text">Permisos de {{ userA }}</label>
+      </form>
+      
+      <form class="form" id="subUserForm">
+        <label class="mainLbl animated zoomIn fast">Crear Sub usuario </label>
+        <label for="subject">Nombre:</label>
+        <input nbInput id="Newsubject" type="text" maxlength="20" placeholder="Usuario">
+        <label class="text-label" for="text">Contraseña:</label>
+        <input nbInput id="NewPass" type="text" maxlength="20" placeholder="Contraseña">
+        <label class="text-label" for="text">Email:</label>
+        <input nbInput id="NewsubjMail" maxlength="60" pattern="^[\w.-]+@[a-zA-Z_]+(\.[a-zA-Z]{2,})+$" type="email" placeholder="Nuevo Email" autofocus>
+        <label id="level-Label" class="text-label logo animated infinite flash slower" for="text">Permisos de {{ subUserA }}</label>
+      </form>
+    </div>
+
+    <div class="list-cont">
+      <div class="list" id="assignL">
+        <ng-multiselect-dropdown
+          [placeholder]="'Asignar'"
+          [data]="addList"
+          [(ngModel)]="selectedItems"
+          [settings]="dropdownSettingsSU"
+          (onSelect)="onItemSelectAdd($event)"
+          (onSelectAll)="onSelectAddAll($event)"
+          (onDeSelect)="onDeSelectAdd($event)"
+          (onDeSelectAll)="onDeSelectAddAll($event)"
+        >
+        </ng-multiselect-dropdown>
+      </div>
+
+      <div class="list" id="quitL">
+        <ng-multiselect-dropdown
+          [placeholder]="'Quitar'"
+          [data]="removeList"
+          [(ngModel)]="selectedItems"
+          [settings]="dropdownSettingsOnU"
+          (onSelect)="onItemSelectRemove($event)"
+          (onSelectAll)="onSelectRemoveAll($event)"
+          (onDeSelect)="onDeSelectRemove($event)"
+          (onDeSelectAll)="onDeSelectRemoveAll($event)"
+        >
+        </ng-multiselect-dropdown>
+      </div>
+      
+    </div>  
+
+    <div class="btn-container">
+      <div class="btn-cont">
+        <button nbButton hero status="success" (click)="saveChanges()" [attr.disabled]="saveActive ? null : false " class="btn">Guardar</button> 
+      </div>
+
+      <div class="btn-cont">
+        <button nbButton hero status="danger" (click)="deleteUser($event)"  [attr.disabled]="deleteActive ? null : false " class="btn">Eliminar</button> 
+      </div>
+     
+      <div class="btn-cont" >
+        <button nbButton hero status="warning" (click)="createSubUser()" [attr.disabled]="createActive ? null : false " class="btn">Nuevo</button>
+      </div>
+    </div>
+
+</div>

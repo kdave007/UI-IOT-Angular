@@ -1,0 +1,55 @@
+<div class="custom-cont">
+    <input nbInput class="inputPicker" placeholder="Calendario" [nbDatepicker]="formpicker">
+    <nb-rangepicker #formpicker (rangeChange)="rangeChange($event)"></nb-rangepicker>
+    <div class="btn-cont" >
+      <button nbButton hero status="warning" (click)="updateData(true)" [attr.disabled]="updateRange ? null : false " >Actualizar</button>
+    </div>
+</div>
+<nb-tabset>
+    <nb-tab *ngFor="let thermistor of thermistors" tabTitle="{{thermistor.label}}">
+        <div style="display: flex;">
+            
+            <div style="padding-bottom: 15px; width:  33%">
+                <div style="padding-bottom: 5px;">
+                    <span class="title-text">Muestras (°C) - (fecha):</span>
+                </div>
+                
+                <div style="padding-top:15px; overflow-y: scroll; height: 380px;">
+                        
+                        <div class ="row-cont" *ngFor="let reference of thermistor.references; let i = index;" >
+                            <div style="align-self: center; min-width: 250px; display: flex;">
+                                <div style="border: 3px solid; border-radius: 5px; border-color: #09da92; width: 70px; text-align: center;"> {{ reference.temp }} </div> 
+                                <span style="font-weight: bold; align-self: center; padding-left: 10px;">{{ reference.timestamp }}</span>
+                            </div>
+                           
+                           <div><button nbButton hero status="success" (click)="selectSample(thermistor.id,reference,i)" [disabled]="reference.disabledAdd">></button></div>
+                        </div>
+                   
+                </div>
+
+            </div>  
+            
+            <div style="width: 60%;">
+                <div style="padding-left: 25px; padding-bottom: 5px;">
+                    <span class="title-text">Muestras seleccionadas (°C) - (fecha):</span>
+                </div>
+                
+                <div class="selected-container">
+                    <div class ="row-cont" *ngFor="let selectedSample of selectedSamples[thermistor.id].samples; let i = index;">
+                        <div style="align-self: center; min-width: 250px; display: flex;">
+                            <div style="border: 3px solid; border-radius: 5px; border-color: #09da92; width: 70px; text-align: center;"> {{ selectedSample.temp }}  </div> 
+                            <span style="font-weight: bold; align-self: center; padding-left: 10px;">{{ selectedSample.timestamp }}</span>
+                        </div> 
+                        <div><button nbButton hero status="danger" (click)="removeSelected(selectedSample,thermistor.id)" >X</button></div>
+                        <div style="padding-left: 3%; align-self: baseline;">
+                            <span class="small-text">Temperatura medida(°C) :</span>
+                            <input nbInput class="inputPicker" type="number" min=-100 max=100 placeholder="" (keyup)="updateCalibration()" (change)="updateCalibration()" [(ngModel)]="selectedSample.value"> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>    
+
+    </nb-tab>
+</nb-tabset>

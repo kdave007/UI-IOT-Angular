@@ -1,0 +1,107 @@
+@import '../../@theme/styles/themes';
+
+.step-container{
+    display: block;
+}
+
+.stepper-container{
+    min-width: 600px;
+}
+
+.loading-txt{
+    font-size: 20px;
+    height: 475.6px;
+}
+
+.form-container, .control-container, .form-title{
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.table-container{
+    min-width: 700px;
+}
+
+.form-title{
+    text-align: center;
+    font-size: 1.5rem;
+    padding-bottom: 10px;
+}
+
+.control-container{
+    padding-top: 10px;
+}
+
+.form-control{
+    width: 30rem;
+}
+
+.ctrl-btn{
+    margin: 10px;
+}
+
+.dev-data{    
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1rem;
+}
+
+.dev-data-container{
+    display: flex;
+}
+
+.data-title{
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+}
+
+.table-content{
+    text-align: center;
+}
+
+.misc-content, .table-log-header{
+    display: flex;
+}
+
+.misc-content{
+    margin-left: auto;
+}
+
+.header-log-container{
+    display: flex;
+}
+
+.dialog-container {
+    width: 2250px !important;
+}
+
+.confirm-btns{
+    display: flex;
+}
+
+.confirm-btn{
+    padding: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 100px;
+}
+
+.warning-txt{
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 25px;
+}
+@include nb-install-component() {
+    .log-table, .table-paginator{
+        background-color: nb-theme(background-basic-color-1);
+        color: nb-theme(text-basic-color);
+    }
+
+    .table-content, .mat-select-value{
+        color: nb-theme(text-basic-color) !important;
+    }
+}

@@ -1,0 +1,561 @@
+<nb-accordion >
+     <nb-accordion-item>
+          <nb-accordion-item-header nbTooltip="{{_TOOLTIPS.TAB_BASIC}}" nbTooltipStatus="primary" class="accordion-header">
+               Límite de temperatura en la cámara refrigerada
+          </nb-accordion-item-header>
+          <nb-accordion-item-body>
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Parámetros de temperatura en la cámara refrigerada</label>
+               </div>
+               <div>     
+                    <table class="table table-bordered table-striped" > 
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary" class="sub-label" style="display: block!important;" >Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.DEFROST].enabled " [(ngModel)]="settings[INPUT_INDEX.DEFROST].active"  (change)="addToUpdates(settings[INPUT_INDEX.DEFROST])" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.DEFROST].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+               
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Temperatura considerada como deshielado (°C): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.DEFROST].editable " [(ngModel)]="settings[INPUT_INDEX.DEFROST].params['CONFIG_ID_1']" (change)="addToUpdates(settings[INPUT_INDEX.DEFROST],'CONFIG_ID_1',limits.temp)" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" max="{{limits.temp.max}}" min="{{limits.temp.min}}">
+                                   </div>
+                              </tr>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Tiempo mínimo para considerar un evento de deshielado (Min): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.DEFROST].editable " [(ngModel)]="settings[INPUT_INDEX.DEFROST].params['CONFIG_ID_2']" (change)="addToUpdates(settings[INPUT_INDEX.DEFROST],'CONFIG_ID_2',limits.timeoutTemp)" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutTemp.min}}" max="{{limits.timeoutTemp.max}}">
+                                   </div>
+                              </tr>    
+                         </tbody>
+
+                    </table>     
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Parámetros de temperatura estable</label>
+               </div>
+               <div>
+                    <table class="table table-bordered table-striped" >
+
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.BOX_STABLE].enabled " (change)="addToUpdates(settings[INPUT_INDEX.BOX_STABLE])" [(ngModel)]="settings[INPUT_INDEX.BOX_STABLE].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.BOX_STABLE].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Tiempo mínimo para considerar que la temperatura se estabilizo después de un evento de deshielado (Min):  &nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.BOX_STABLE].editable " (change)="addToUpdates(settings[INPUT_INDEX.BOX_STABLE],'CONFIG_ID_3',limits.timeoutTemp)" [(ngModel)]="settings[INPUT_INDEX.BOX_STABLE].params['CONFIG_ID_3']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" max="60" min="{{limits.timeoutTemp.min}}" max="{{limits.timeoutTemp.max}}">
+                                   </div>
+                              </tr>
+                         </tbody>
+
+                    </table>
+               </div>
+
+          </nb-accordion-item-body>
+     </nb-accordion-item>
+
+     <nb-accordion-item>
+          <nb-accordion-item-header nbTooltip="{{_TOOLTIPS.TAB_BASIC}}" nbTooltipStatus="primary" class="accordion-header">
+               Límites de temperatura en la unidad de enfriamiento
+          </nb-accordion-item-header>
+          <nb-accordion-item-body>
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Temperatura alta en descarga de compresor</label>
+               </div>
+               <div>
+                    <table class="table table-bordered table-striped">
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.HIGH_TEMP_D].enabled " (change)="addToUpdates(settings[INPUT_INDEX.HIGH_TEMP_D])" [(ngModel)]="settings[INPUT_INDEX.HIGH_TEMP_D].active" status="success" ><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.HIGH_TEMP_D].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+
+                         <tbody>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Temperatura ascendente máxima considerada como peligro (°C): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.HIGH_TEMP_D].editable " (change)="addToUpdates(settings[INPUT_INDEX.HIGH_TEMP_D],'CONFIG_ID_4',limits.temp)" [(ngModel)]="settings[INPUT_INDEX.HIGH_TEMP_D].params['CONFIG_ID_4']" style="color: red; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.temp.min}}" max="{{limits.temp.max}}">
+                                   </div>     
+                              </tr>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Tiempo mínimo que debe transcurrir sobre la temperatura máxima para considerar como peligro (Min):	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.HIGH_TEMP_D].editable " (change)="addToUpdates(settings[INPUT_INDEX.HIGH_TEMP_D],'CONFIG_ID_6',limits.timeoutTemp)" [(ngModel)]="settings[INPUT_INDEX.HIGH_TEMP_D].params['CONFIG_ID_6']" style="color: red; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutTemp.min}}" max="{{limits.timeoutTemp.max}}">
+                                   </div>     
+                              </tr>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Apagar compresor en caso de encontrar temperatura alta peligrosa : 	&nbsp; </label>
+                                        <nb-checkbox [disabled]="!settings[INPUT_INDEX.HIGH_TEMP_D].editable" (change)="addToUpdates(settings[INPUT_INDEX.HIGH_TEMP_D])" [(ngModel)]="settings[INPUT_INDEX.HIGH_TEMP_D].params['CONFIG_ID_9']" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[INPUT_INDEX.HIGH_TEMP_D].params['CONFIG_ID_9']) ? "Sí" : "No" }}</span></nb-checkbox>
+                                   </div>     
+                              </tr>
+                         </tbody>
+                    </table>
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Temperatura baja en descarga de compresor</label>
+               </div>
+               <div>
+                    <table class="table table-bordered table-striped">
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.LOW_TEMP_D].enabled " (change)="addToUpdates(settings[INPUT_INDEX.LOW_TEMP_D])" [(ngModel)]="settings[INPUT_INDEX.LOW_TEMP_D].active" status="success" ><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.LOW_TEMP_D].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+
+                         <tbody>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Temperatura descendente mínima considerada como peligro (°C): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.LOW_TEMP_D].editable " (change)="addToUpdates(settings[INPUT_INDEX.LOW_TEMP_D],'CONFIG_ID_5',limits.temp)" [(ngModel)]="settings[INPUT_INDEX.LOW_TEMP_D].params['CONFIG_ID_5']" style="color: red; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.temp.min}}" max="{{limits.temp.max}}">
+                                   </div>     
+                              </tr>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Tiempo mínimo que debe transcurrir debajo de la temperatura mínima para considerar como peligro (Min):  &nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.LOW_TEMP_D].editable " (change)="addToUpdates(settings[INPUT_INDEX.LOW_TEMP_D],'CONFIG_ID_7',limits.timeoutTemp)" [(ngModel)]="settings[INPUT_INDEX.LOW_TEMP_D].params['CONFIG_ID_7']" style="color: red; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutTemp.min}}" max="{{limits.timeoutTemp.max}}">
+                                   </div>     
+                              </tr>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Apagar compresor en caso de encontrar temperatura baja peligrosa :   &nbsp; </label>
+                                        <nb-checkbox status="success" [disabled]="!settings[INPUT_INDEX.LOW_TEMP_D].editable " (change)="addToUpdates(settings[INPUT_INDEX.LOW_TEMP_D])" [(ngModel)]="settings[INPUT_INDEX.LOW_TEMP_D].params['CONFIG_ID_10']" ><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[INPUT_INDEX.LOW_TEMP_D].params['CONFIG_ID_10']) ? "Sí" : "No" }}</span></nb-checkbox>
+                                   </div>     
+                              </tr>
+                         </tbody>
+                    </table>
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Temperatura estable en descarga de compresor </label>
+               </div>
+               <div>
+                    <table class="table table-bordered table-striped" >
+
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.DOWNLOAD_STABLE].enabled " (change)="addToUpdates(settings[INPUT_INDEX.DOWNLOAD_STABLE])" [(ngModel)]="settings[INPUT_INDEX.DOWNLOAD_STABLE].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.DOWNLOAD_STABLE].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Tiempo mínimo que debe transcurrir para considerar la temperatura como estable (Min):  &nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.DOWNLOAD_STABLE].editable " (change)="addToUpdates(settings[INPUT_INDEX.DOWNLOAD_STABLE],'CONFIG_ID_8',limits.timeoutTemp)" [(ngModel)]="settings[INPUT_INDEX.DOWNLOAD_STABLE].params['CONFIG_ID_8']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number"  min="{{limits.timeoutTemp.max}}" max="{{limits.timeoutTemp.max}}">
+                                   </div>
+                              </tr>
+                         </tbody>
+
+                    </table>
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Temperatura alta en carga de compresor (succión)</label>
+               </div> 
+               <div>
+                    <table class="table table-bordered table-striped">
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label class="sub-label" style="display: block!important;"nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.HIGH_TEMP_S].enabled " (change)="addToUpdates(settings[INPUT_INDEX.HIGH_TEMP_S])" [(ngModel)]="settings[INPUT_INDEX.HIGH_TEMP_S].active" status="success" ><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.HIGH_TEMP_S].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+
+                         <tbody>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Temperatura máxima ascendente considerada como peligro  (°C): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.HIGH_TEMP_S].editable " (change)="addToUpdates(settings[INPUT_INDEX.HIGH_TEMP_S],'CONFIG_ID_11',limits.temp)" [(ngModel)]="settings[INPUT_INDEX.HIGH_TEMP_S].params['CONFIG_ID_11']" style="color: red; padding-left: 10px;" nbInput class="inputPicker" type="number"  min="{{limits.temp.min}}" max="{{limits.temp.max}}">
+                                   </div>     
+                              </tr>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Tiempo mínimo que debe transcurrir sobre la temperatura máxima para considerar como peligro (Min):	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.HIGH_TEMP_S].editable " (change)="addToUpdates(settings[INPUT_INDEX.HIGH_TEMP_S],'CONFIG_ID_13',limits.timeoutTemp)" [(ngModel)]="settings[INPUT_INDEX.HIGH_TEMP_S].params['CONFIG_ID_13']" style="color: red; padding-left: 10px;" nbInput class="inputPicker" type="number"  min="{{limits.timeoutTemp.min}}" max="{{limits.timeoutTemp.max}}">
+                                   </div>     
+                              </tr>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Apagar compresor en caso de encontrar temperatura alta peligrosa : 	&nbsp; </label>
+                                        <nb-checkbox [disabled]="!settings[INPUT_INDEX.HIGH_TEMP_S].editable " (change)="addToUpdates(settings[INPUT_INDEX.HIGH_TEMP_S])" [(ngModel)]="settings[INPUT_INDEX.HIGH_TEMP_S].params['CONFIG_ID_16']" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[INPUT_INDEX.HIGH_TEMP_S].params['CONFIG_ID_16']) ? "Sí" : "No" }}</span></nb-checkbox>
+                                   </div>     
+                              </tr>
+                         </tbody>
+                    </table>
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Temperatura baja en carga de compresor (succión)</label>
+               </div>
+               <div>
+                    <table class="table table-bordered table-striped">
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.LOW_TEMP_S].enabled " (change)="addToUpdates(settings[INPUT_INDEX.LOW_TEMP_S])" [(ngModel)]="settings[INPUT_INDEX.LOW_TEMP_S].active"  status="success" ><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.LOW_TEMP_S].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+
+                         <tbody>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Temperatura mínima descendente considerada de peligro (°C): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.LOW_TEMP_S].editable " (change)="addToUpdates(settings[INPUT_INDEX.LOW_TEMP_S],'CONFIG_ID_12',limits.temp)" [(ngModel)]="settings[INPUT_INDEX.LOW_TEMP_S].params['CONFIG_ID_12']" style="color: red; padding-left: 10px;" nbInput class="inputPicker" type="number"  min="{{limits.temp.min}}" max="{{limits.temp.max}}">
+                                   </div>     
+                              </tr>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Tiempo mínimo que debe transcurrir debajo de la temperatura mínima para considerar como peligro (Min):  &nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.LOW_TEMP_S].editable " (change)="addToUpdates(settings[INPUT_INDEX.LOW_TEMP_S],'CONFIG_ID_14',limits.timeoutTemp)" [(ngModel)]="settings[INPUT_INDEX.LOW_TEMP_S].params['CONFIG_ID_14']" style="color: red; padding-left: 10px;" nbInput class="inputPicker" type="number"  min="{{limits.timeoutTemp.min}}" max="{{limits.timeoutTemp.max}}" >
+                                   </div>     
+                              </tr>
+                              <tr>  
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Apagar compresor en caso de encontrar temperatura baja peligrosa :   &nbsp; </label>
+                                        <nb-checkbox [disabled]="!settings[INPUT_INDEX.LOW_TEMP_S].editable " (change)="addToUpdates(settings[INPUT_INDEX.LOW_TEMP_S])" [(ngModel)]="settings[INPUT_INDEX.LOW_TEMP_S].params['CONFIG_ID_17']" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[INPUT_INDEX.LOW_TEMP_S].params['CONFIG_ID_17']) ? "Sí" : "No" }}</span></nb-checkbox>
+                                   </div>     
+                              </tr>
+                         </tbody>
+                    </table>
+               </div>
+          
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Temperatura estable en carga de compresor (succión)</label>
+               </div>
+               <div>
+                    <table class="table table-bordered table-striped" >
+
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.SUCTION_STABLE].enabled " (change)="addToUpdates(settings[INPUT_INDEX.SUCTION_STABLE])" [(ngModel)]="settings[INPUT_INDEX.SUCTION_STABLE].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.SUCTION_STABLE].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Tiempo mínimo que debe transcurrir para considerar la temperatura como estable (Min):  &nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.SUCTION_STABLE].editable " (change)="addToUpdates(settings[INPUT_INDEX.SUCTION_STABLE],'CONFIG_ID_15',limits.timeoutTemp)" [(ngModel)]="settings[INPUT_INDEX.SUCTION_STABLE].params['CONFIG_ID_15']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutTemp.min}}" max="{{limits.temp.max}}">
+                                   </div>
+                              </tr>
+                         </tbody>
+
+                    </table>
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Diferencia de temperaturas en compresor(succión y descarga)</label>
+               </div>
+               <div>     
+                    <table class="table table-bordered table-striped" > 
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.TEMP_DIFF].enabled " (change)="addToUpdates(settings[INPUT_INDEX.TEMP_DIFF])" [(ngModel)]="settings[INPUT_INDEX.TEMP_DIFF].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.TEMP_DIFF].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+               
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Diferencia mínima entre ambas temperaturas para considerar como un evento peligroso (°C): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.TEMP_DIFF].editable " (change)="addToUpdates(settings[INPUT_INDEX.TEMP_DIFF],'CONFIG_ID_24',limits.difference)" [(ngModel)]="settings[INPUT_INDEX.TEMP_DIFF].params['CONFIG_ID_24']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.difference.min}}" max="{{limits.difference.max}}">
+                                   </div>
+                              </tr>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Tiempo mínimo para considerar un evento de diferencia de temperaturas de peligro (Min): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.TEMP_DIFF].editable " (change)="addToUpdates(settings[INPUT_INDEX.TEMP_DIFF],'CONFIG_ID_25',limits.timeoutTemp)" [(ngModel)]="settings[INPUT_INDEX.TEMP_DIFF].params['CONFIG_ID_25']"  style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutTemp.min}}" max="{{limits.timeoutTemp.max}}">
+                                   </div>
+                              </tr>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Apagar compresor en caso de peligro por diferencia de temperaturas : 	&nbsp; </label>
+                                        <nb-checkbox [disabled]="!settings[INPUT_INDEX.TEMP_DIFF].editable " (change)="addToUpdates(settings[INPUT_INDEX.TEMP_DIFF])" [(ngModel)]="settings[INPUT_INDEX.TEMP_DIFF].params['CONFIG_ID_26']" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[INPUT_INDEX.TEMP_DIFF].params['CONFIG_ID_26']) ? "Sí" : "No" }}</span></nb-checkbox>
+                                   </div>
+                              </tr>     
+                         </tbody>
+
+                    </table>     
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Compresor apagado/encendido </label>
+               </div>
+               <div>     
+                    <table class="table table-bordered table-striped" > 
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.COMP_OFF].enabled " (change)="addToUpdates(settings[INPUT_INDEX.COMP_OFF])" [(ngModel)]="settings[INPUT_INDEX.COMP_OFF].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.COMP_OFF].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+               
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Compresor apagado por un periodo largo (Horas): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.COMP_OFF].editable " (change)="addToUpdates(settings[INPUT_INDEX.COMP_OFF],'CONFIG_ID_34',limits.timeoutHours)" [(ngModel)]="settings[INPUT_INDEX.COMP_OFF].params['CONFIG_ID_34']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutHours.min}}" max="{{limits.timeoutHours.max}}">
+                                   </div>
+                              </tr>  
+                         </tbody>
+
+                    </table>     
+               </div>
+
+          </nb-accordion-item-body>
+     </nb-accordion-item>
+
+     <!-- <nb-accordion-item>
+          <nb-accordion-item-header class="accordion-header">
+               Puerta trasera
+          </nb-accordion-item-header>
+          <nb-accordion-item-body>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Abierta</label>
+               </div>
+               <div>
+                    <table class="table table-bordered table-striped" >
+
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" >Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.OPEN_BDOOR].enabled " (change)="addToUpdates(settings[INPUT_INDEX.OPEN_BDOOR])" [(ngModel)]="settings[INPUT_INDEX.OPEN_BDOOR].active"  status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.OPEN_BDOOR].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label"> Tiempo mínimo para considerar que la puerta está abierta (Min):     &nbsp; </label>
+                                        <input [disabled]="!settings[INPUT_INDEX.OPEN_BDOOR].editable " (change)="addToUpdates(settings[INPUT_INDEX.OPEN_BDOOR],'CONFIG_ID_18',limits.timeoutTemp)" [(ngModel)]="settings[INPUT_INDEX.OPEN_BDOOR].params['CONFIG_ID_18']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutTemp.min}}" max="{{limits.timeoutTemp.max}}">
+                                   </div>
+                              </tr>
+                         </tbody>
+
+                    </table>
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Cerrada</label>
+               </div>
+               <div>     
+                    <table class="table table-bordered table-striped" > 
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" >Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.CLOSED_BDOOR].enabled " (change)="addToUpdates(settings[INPUT_INDEX.CLOSED_BDOOR])" [(ngModel)]="settings[INPUT_INDEX.CLOSED_BDOOR].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.CLOSED_BDOOR].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+               
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label"> Tiempo mínimo para considerar que la puerta está cerrada (Min):  	&nbsp; </label>
+                                        <input [disabled]="!settings[INPUT_INDEX.CLOSED_BDOOR].editable " (change)="addToUpdates(settings[INPUT_INDEX.CLOSED_BDOOR],'CONFIG_ID_19',limits.timeoutTemp)" [(ngModel)]="settings[INPUT_INDEX.CLOSED_BDOOR].params['CONFIG_ID_19']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutTemp.min}}" max="{{limits.timeoutTemp.max}}">
+                                   </div>
+                              </tr>   
+                         </tbody>
+
+                    </table>     
+               </div>
+          </nb-accordion-item-body>
+     </nb-accordion-item> -->
+
+     <nb-accordion-item>
+          <nb-accordion-item-header nbTooltip="{{_TOOLTIPS.TAB_BASIC}}" nbTooltipStatus="primary" class="accordion-header">
+               Alimentación de la unidad de enfriamiento
+          </nb-accordion-item-header>
+          <nb-accordion-item-body>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label"> Batería del camión desconectada</label>
+               </div>
+               <div>     
+                    <table class="table table-bordered table-striped" > 
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.T_BAT_NC].enabled " (change)="addToUpdates(settings[INPUT_INDEX.T_BAT_NC])" [(ngModel)]="settings[INPUT_INDEX.T_BAT_NC].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.T_BAT_NC].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+               
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label"> Tiempo mínimo para considerar que que la alimentación esta desconectada (Seg): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.T_BAT_NC].editable " (change)="addToUpdates(settings[INPUT_INDEX.T_BAT_NC],'CONFIG_ID_21',limits.timeoutSec)" [(ngModel)]="settings[INPUT_INDEX.T_BAT_NC].params['CONFIG_ID_21']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutSec.min}}" max="{{limits.timeoutSec.max}}">
+                                   </div>
+                              </tr>   
+                         </tbody>
+
+                    </table>     
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Batería del camión conectada</label>
+               </div>
+               <div>
+                    <table class="table table-bordered table-striped" >
+
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.T_BAT_C].enabled " (change)="addToUpdates(settings[INPUT_INDEX.T_BAT_C])" [(ngModel)]="settings[INPUT_INDEX.T_BAT_C].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.T_BAT_C].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label"> Tiempo mínimo para considerar que la alimentación esta conectada (Seg): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.T_BAT_C].editable " (change)="addToUpdates(settings[INPUT_INDEX.T_BAT_C],'CONFIG_ID_20',limits.timeoutSec)" [(ngModel)]="settings[INPUT_INDEX.T_BAT_C].params['CONFIG_ID_20']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutSec.min}}" max="{{limits.timeoutSec.max}}">
+                                   </div>
+                              </tr>
+                         </tbody>
+
+                    </table>
+               </div>          
+          </nb-accordion-item-body>
+     </nb-accordion-item>
+
+     <nb-accordion-item>
+          <nb-accordion-item-header nbTooltip="{{_TOOLTIPS.TAB_BASIC}}" nbTooltipStatus="primary" class="accordion-header">
+               Alimentación externa del dispositivo CoolChain
+          </nb-accordion-item-header>
+          <nb-accordion-item-body>
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Alimentación(CeDis) de compresor desconectada</label>
+               </div>
+               <div>     
+                    <table class="table table-bordered table-striped" > 
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.CEDIS_NC].enabled " (change)="addToUpdates(settings[INPUT_INDEX.CEDIS_NC])" [(ngModel)]="settings[INPUT_INDEX.CEDIS_NC].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.CEDIS_NC].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+               
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label"> Tiempo mínimo para considerar que la alimentación esta desconectada (Seg): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.CEDIS_NC].editable " (change)="addToUpdates(settings[INPUT_INDEX.CEDIS_NC],'CONFIG_ID_23',limits.timeoutSec)" [(ngModel)]="settings[INPUT_INDEX.CEDIS_NC].params['CONFIG_ID_23']"  style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number"  min="{{limits.timeoutSec.min}}" max="{{limits.timeoutSec.max}}">
+                                   </div>
+                              </tr>   
+                         </tbody>
+
+                    </table>     
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Alimentación(CeDis) de compresor conectada</label>
+               </div>
+               <div>
+                    <table class="table table-bordered table-striped" >
+
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.CEDIS_C].enabled " (change)="addToUpdates(settings[INPUT_INDEX.CEDIS_C])" [(ngModel)]="settings[INPUT_INDEX.CEDIS_C].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.CEDIS_C].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label"> Tiempo mínimo para considerar que la alimentación esta conectada (Seg): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.CEDIS_C].editable " (change)="addToUpdates(settings[INPUT_INDEX.CEDIS_C],'CONFIG_ID_22',limits.timeoutSec)" [(ngModel)]="settings[INPUT_INDEX.CEDIS_C].params['CONFIG_ID_22']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number"  min="{{limits.timeoutSec.min}}" max="{{limits.timeoutSec.max}}">
+                                   </div>
+                              </tr>
+                         </tbody>
+
+                    </table>
+               </div>
+          </nb-accordion-item-body>
+     </nb-accordion-item>
+
+     <nb-accordion-item>
+          <nb-accordion-item-header nbTooltip="{{_TOOLTIPS.TAB_BASIC}}" nbTooltipStatus="primary" class="accordion-header">
+               Alimentación interna del dispositivo CoolChain
+          </nb-accordion-item-header>
+          <nb-accordion-item-body>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Batería en carga máxima</label>
+               </div>
+               <div>
+                    <table class="table table-bordered table-striped" >
+
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.PB_FULL_V].enabled " (change)="addToUpdates(settings[INPUT_INDEX.PB_FULL_V])" [(ngModel)]="settings[INPUT_INDEX.PB_FULL_V].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.PB_FULL_V].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Voltaje considerado como batería en carga máxima : 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.PB_FULL_V].editable " (change)="addToUpdates(settings[INPUT_INDEX.PB_FULL_V],'CONFIG_ID_27',limits.voltagePB)" [(ngModel)]="settings[INPUT_INDEX.PB_FULL_V].params['CONFIG_ID_27']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.voltagePB.min}}" max="{{limits.voltagePB.max}}" >
+                                   </div>
+                              </tr>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label"> Tiempo mínimo que debe transcurrir para considerar la batería en carga máxima (Seg): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.PB_FULL_V].editable " (change)="addToUpdates(settings[INPUT_INDEX.PB_FULL_V],'CONFIG_ID_28',limits.timeoutSec)" [(ngModel)]="settings[INPUT_INDEX.PB_FULL_V].params['CONFIG_ID_28']"  style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutSec.min}}" max="{{limits.timeoutSec.max}}">
+                                   </div>
+                              </tr>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label"> Tiempo mínimo que debe transcurrir para considerar que la batería ya no está en carga máxima (Seg): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.PB_FULL_V].editable " (change)="addToUpdates(settings[INPUT_INDEX.PB_FULL_V],'CONFIG_ID_29',limits.timeoutSec)" [(ngModel)]="settings[INPUT_INDEX.PB_FULL_V].params['CONFIG_ID_29']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number"  min="{{limits.timeoutSec.min}}" max="{{limits.timeoutSec.max}}">
+                                   </div>
+                              </tr>
+                         </tbody>
+
+                    </table>
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Batería en carga mínima</label>
+               </div>
+               <div>
+                    <table class="table table-bordered table-striped" >
+
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.PB_EMPTY].enabled " (change)="addToUpdates(settings[INPUT_INDEX.PB_EMPTY])" [(ngModel)]="settings[INPUT_INDEX.PB_EMPTY].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.PB_EMPTY].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label">Voltaje considerado como batería carga mínima para alimentar el dispositivo : 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.PB_EMPTY].editable " (change)="addToUpdates(settings[INPUT_INDEX.PB_EMPTY],'CONFIG_ID_30',limits.voltagePB)" [(ngModel)]="settings[INPUT_INDEX.PB_EMPTY].params['CONFIG_ID_30']"  style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.voltagePB.min}}" max="{{limits.voltagePB.max}}">
+                                   </div>
+                              </tr> 
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label"> Tiempo mínimo que debe transcurrir para considerar que la bateria esta en carga mínima (Seg): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.PB_EMPTY].editable " (change)="addToUpdates(settings[INPUT_INDEX.PB_EMPTY],'CONFIG_ID_32',limits.timeoutSec)" [(ngModel)]="settings[INPUT_INDEX.PB_EMPTY].params['CONFIG_ID_32']"  style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutSec.min}}" max="{{limits.timeoutSec.max}}">
+                                   </div>
+                              </tr> 
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label"> Tiempo mínimo que debe transcurrir para considerar que el voltaje aún se encuentra sobre la carga mínima (Seg): 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.PB_EMPTY].editable " (change)="addToUpdates(settings[INPUT_INDEX.PB_EMPTY],'CONFIG_ID_31',limits.timeoutSec)" [(ngModel)]="settings[INPUT_INDEX.PB_EMPTY].params['CONFIG_ID_31']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" min="{{limits.timeoutSec.min}}" max="{{limits.timeoutSec.max}}">
+                                   </div>
+                              </tr>
+                         </tbody>
+
+                    </table>
+               </div>
+
+               <div style="padding: 1% 0% 2% 2%;">
+                    <label class="title-label">Variación de carga de batería</label>
+               </div>
+               <div>     
+                    <table class="table table-bordered table-striped" > 
+                         <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                              <label  class="sub-label" style="display: block!important;" nbTooltip="{{_TOOLTIPS.NOTIFICATIONS}}" nbTooltipStatus="primary">Notificación : 	&nbsp; </label>
+                              <nb-checkbox [disabled]="!settings[INPUT_INDEX.PB_V_DIFF].enabled " (change)="addToUpdates(settings[INPUT_INDEX.PB_V_DIFF])" [(ngModel)]="settings[INPUT_INDEX.PB_V_DIFF].active" status="success"><span style="font-size: 15px; font-size: 1.1rem;">{{ settings[INPUT_INDEX.PB_V_DIFF].active ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                         </div>
+               
+                         <tbody>
+                              <tr>
+                                   <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                        <label class="sub-label"> Intervalo en el cual se estará notificando el voltaje del powerbank. Por ejemplo si se asigna el valor de 0.5 se estará enviando una alerta con el voltaje actual del powerbank cada que exista una diferencia de +/-0.5v : 	&nbsp; </label>
+                                        <input status="primary" [disabled]="!settings[INPUT_INDEX.PB_V_DIFF].editable " (change)="addToUpdates(settings[INPUT_INDEX.PB_V_DIFF],'CONFIG_ID_33',limits.voltageStep)" [(ngModel)]="settings[INPUT_INDEX.PB_V_DIFF].params['CONFIG_ID_33']" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number"min="{{limits.voltageStep.min}}" max="{{limits.voltageStep.max}}" step="0.5">
+                                   </div>
+                              </tr>  
+                         </tbody>
+
+                    </table>     
+               </div>
+
+          </nb-accordion-item-body>
+     </nb-accordion-item>
+</nb-accordion>
+
+<div style="padding-left: 10px; padding-top: 25px;">
+     <button (click)="showHelp()" nbButton>Ayuda</button>
+     <div style="padding-top: 20px;" [hidden]="!showHelpText">
+         <p>Selecciona un dispositivo y configura las alarmas que llegaran a tu correo, activa o desactiva la casilla de notificación para recibir o no la alarma en tu correo, puedes modificar los parámetros de cada alarma para que cuando un evento cumpla con las condiciones, el dispositivo envié la notificación de alarma.</p>            
+          <p>El término de “carga de compresor “ hace alusión al tubo encargado de  dirigir el aire caliente al compresor, y el termino de “descarga de compresor” hace alusión al tubo encargado de dirigir el aire frio a la cámara de refrigeración, en ambos tubos se tiene un termistor para medir la temperatura.</p>
+     </div>
+ </div>

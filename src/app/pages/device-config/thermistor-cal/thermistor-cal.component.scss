@@ -1,0 +1,54 @@
+@import "../shared/styles.scss";
+
+.small-picker{
+    padding-top: 15px;
+}
+
+.cal-container{
+    display: flex;
+}
+
+.custom-cont{
+    display: flex;
+    padding-bottom: 20px;
+}
+
+.inputPicker {
+    height: calc(1.5em + 0.75rem + 2px);
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: red;
+
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, 
+    box-shadow 0.15s ease-in-out;
+    border-radius: 0.25rem!important;
+}
+
+.small-text{
+    padding: 10px;
+}
+
+.title-text{
+    font-weight: bold;
+    font-size: 1rem;
+    font-family: Roboto,'Helvetica Neue',sans-serif;
+}
+
+.row-cont{
+    padding: 1%;
+    display: flex;
+    align-items: center;
+}
+
+.selected-container{
+    padding-top:15px; overflow-y: scroll; height: 380px; min-width: 60%; padding-left: 3%;
+}
+
+.btn-cont{
+    padding-left: 1%;
+}
+  

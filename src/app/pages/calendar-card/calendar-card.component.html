@@ -1,0 +1,14 @@
+<div class="calendars">
+  
+  <div class="calendar-container">
+    <!--
+    <span class="subtitle">
+      Rango: {{ range.start | date }} - {{ range.end | date }}
+    </span>
+     
+    <nb-calendar-range [(range)]="range" (rangeChange)="handleRangeChange($event)"></nb-calendar-range>
+    -->
+    <input nbInput placeholder="Calendario" [nbDatepicker]="formpicker">
+        <nb-rangepicker #formpicker (rangeChange)="rangeChange($event)"></nb-rangepicker>
+  </div>
+</div>

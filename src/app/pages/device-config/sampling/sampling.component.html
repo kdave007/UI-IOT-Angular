@@ -1,0 +1,23 @@
+<div class="input-container">
+    <span class="info-text">Intervalo de muestreo: <span class="range-text">(1-60)</span> </span>
+
+    <input nbInput value={{defaultSampleTime}} class="inputPicker" type="number" min=1 max=60 placeholder="" (keyup)="updateSamplesTime($event)" (change)="updateSamplesTime($event)" [(ngModel)]="defaultSampleTime"> 
+    <span class="small-text">minutos</span>
+
+    <!--
+    <ng-number-picker value={{defaultSampleTime}} class="small-picker" postfix="minutos" min=1 max=60 size="small" (valueChange)="updateSamplesTime($event)"></ng-number-picker>
+    -->
+</div>
+
+<mat-divider class="horizontal-divider"></mat-divider>
+
+<div class="input-container">
+    <span class="info-text">Máximo de muestras a promediar: <span class="range-text">(1-30)</span> </span>
+
+    <input nbInput value={{defaultSamplePromNum}} class="inputPicker" type="number" min=1 max=30 placeholder="" (keyup)="updateSamplesNum($event)" (change)="updateSamplesNum($event)" [(ngModel)]="defaultSamplePromNum"> 
+    <span class="small-text">muestras</span>
+
+    <!--
+    <ng-number-picker value={{defaultSamplePromNum}} class="small-picker" postfix="muestras" min=1 max=30 size="small" (valueChange)="updateSamplesNum($event)"></ng-number-picker>
+    -->
+</div>

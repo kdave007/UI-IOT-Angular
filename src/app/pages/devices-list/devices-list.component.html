@@ -1,0 +1,12 @@
+<nb-card>
+    <nb-card-header style="font-size: 1.2rem !important;">
+      Lista de dispositivos CoolChain
+    </nb-card-header>
+  
+    <nb-card-body>
+      <ng2-smart-table [settings]="settings" [source]="source"  (custom)="onCustomAction($event)" >
+      </ng2-smart-table>
+    </nb-card-body>
+  </nb-card>
+  
+

@@ -1,0 +1,21 @@
+@media only screen and (max-width: 600px) {//when sceen is bigget than 700px
+     #wrapper{//Apply this class block
+          padding-left: unset!important;
+     }
+ }
+
+#wrapper{
+     position: relative;
+     height: 17rem;
+     max-width: 100%;
+     padding-left: 8.4rem;
+     max-height: 100%;
+    
+}
+
+#wrapper img:nth-of-type(1) {
+     max-width: 100%;
+     position: absolute;
+     max-height: 100%;
+   }
+   

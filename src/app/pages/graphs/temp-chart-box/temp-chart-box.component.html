@@ -1,0 +1,9 @@
+<div [hidden]="hideLoadingData" class="animated infinite flash slow loading-txt">
+    Cargando datos... 
+</div>
+<div #TooltipContainer style="text-align: right; font-size: small;">
+    <b id="tooltipTempsBox"></b>
+</div>
+<div #CanvasContainer>
+    <chart type="line" [data]="data" [options]="options"></chart>
+</div>

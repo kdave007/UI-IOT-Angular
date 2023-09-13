@@ -1,0 +1,53 @@
+<nb-tabset>
+    <nb-tab *ngFor="let profile of profiles" tabTitle={{profile.label}}>
+        <div class="wifi-profile">
+            <div class="field-container">
+                <mat-form-field class="profile-field">
+                    <mat-label>SSID</mat-label>
+                    <input maxlength=32 matInput placeholder="Ingresar nombre de red" [type]="showSsid ? 'text' : 'password'" value={{profile.ssid}} [(ngModel)]="profile.ssid"
+                        (keyup)="updateSsid($event, profile.id)">                  
+                </mat-form-field>
+
+                <nb-checkbox class="toggle-btn" (checkedChange)="showSsid = $event" checked={{showSsid}}>Mostrar</nb-checkbox>
+            </div>
+
+            <div class="field-container">
+                <mat-form-field class="profile-field">
+                    <mat-label>Contraseña</mat-label>
+                    <input maxlength=63 matInput placeholder="Ingresar contraseña de red (opcional)" [type]="showKey ? 'text' : 'password'" value={{profile.key}} [(ngModel)]="profile.key"
+                        (keyup)="updateKey($event, profile.id)">                  
+                </mat-form-field>
+
+                <nb-checkbox class="toggle-btn" (checkedChange)="showKey = $event" checked={{showKey}}>Mostrar</nb-checkbox>
+            </div>
+            
+            <div class="field-container">
+
+                <div class="sub-container">
+                    <mat-form-field class="profile-field">
+                        <mat-label>BSSID</mat-label>
+                        <input oninput="this.value = this.value.toUpperCase()" (keyup)="formatMAC($event, profile.id)" matInput placeholder="Ingresar BSSID de red (opcional)" 
+                            [type]="showMac ? 'text' : 'password'" value={{profile.bssid}} pattern="^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$" [(ngModel)]="profile.bssid">                  
+                    </mat-form-field>
+
+                    <nb-checkbox class="toggle-btn" (checkedChange)="showMac = $event" checked={{showMac}}>Mostrar</nb-checkbox>
+                </div>
+
+                <div class="sub-container">
+                    <mat-form-field class="misc-item">
+                        <mat-label>Prioridad</mat-label>
+                        <mat-select [(value)]="profile.pry">
+                            <mat-option *ngFor="let priority of priorities" value={{priority.id}} (click)="setPriority(profile.id, priority.value)"> {{priority.name}} </mat-option>
+                        </mat-select>
+                    </mat-form-field>                    
+                </div>
+            </div>
+
+
+            <div class="misc-container">
+                <button class="misc-item" nbButton (click)="delete(profile.id)" status="danger">Restablecer campos de red</button>
+            </div>
+        </div>
+    </nb-tab>
+</nb-tabset>
+

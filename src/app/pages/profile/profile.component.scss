@@ -1,0 +1,103 @@
+.row {
+     display: inline !important;
+}
+
+.col-lg-6 {
+     max-width: 100%!important;
+}
+
+.adminStepper{
+    min-width: 500px;
+}
+
+.step-container{
+     display: block;
+ }
+
+ .form-container, .control-container, .form-title{
+     display: table;
+     margin-left: auto;
+     margin-right: auto;
+ }
+ 
+ .form-title{
+     text-align: center;
+     font-size: 1.5rem;
+     padding-bottom: 10px;
+ }
+ 
+ .control-container{
+     padding-top: 10px;
+ }
+ 
+ .form-control{
+     width: 30rem;
+ }
+
+ .loading-txt{
+    font-size: 20px;
+    height: 475.6px;
+}
+
+ .dev-data{    
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 1rem;
+}
+
+.data-title{
+    font-weight: bold;
+}
+
+.dev-data-container{
+    display: flex;
+}
+
+.ctrl-btn{
+    margin: 10px;
+}
+
+.account-container{
+    display: flex;
+}
+
+.image-picker-container{
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.vertical-divider{
+    margin-left: 1rem;
+    margin-right: 1.5rem;
+}
+
+.warning-txt{
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 25px;
+}   
+
+.confirm-btn{
+    padding: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 150px;
+}
+
+.confirm-btns{
+    display: flex;
+}
+
+@import '../../@theme/styles/themes';
+
+@include nb-install-component() {// dialog ng template ignores this :/
+    .warning-txt{
+        font-size: 20px;
+        font-weight: bold;
+        padding-bottom: 25px;
+        color:nb-theme(plainTextA)!important;
+        background-color:nb-theme(slide-out-background)!important;
+    }    
+    
+}
+

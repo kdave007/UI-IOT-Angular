@@ -1,0 +1,20 @@
+
+<div class="advanced-wraper">
+     <div >
+          <span class="small-text">Habilitar modo "keep alive", donde cada cierto periodo de tiempo el dispositivo comprobara OTA (segundos) (si se mantiene en 0, se deshabilita por defecto)</span>   
+          <div class="input-wrapper"> 
+               <input nbInput status="basic" [(ngModel)]="ADVANCED_SETTINGS.keep_alive" >
+          </div> 
+     </div>
+
+     <div class="input-frame">
+          <span class="small-text">Habilitar GPS en modo "keep alive"</span>   
+          <nb-toggle status="basic" [(ngModel)]="ADVANCED_SETTINGS.ka_GPS" (change)="(!ADVANCED_SETTINGS.ka_GPS) ? ADVANCED_SETTINGS.log_GPS=0 : null"> </nb-toggle>
+     </div> 
+
+     <div class="input-frame">
+          <span class="small-text">Cada cuantos segundos se guardará  la ubicación por GPS (si se mantiene en 0, se deshabilita por defecto)</span>   
+          <input nbInput status="basic" [(ngModel)]="ADVANCED_SETTINGS.log_GPS" [disabled]="!ADVANCED_SETTINGS.ka_GPS" > 
+     </div> 
+</div>
+ 

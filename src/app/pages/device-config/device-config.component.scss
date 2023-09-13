@@ -1,0 +1,40 @@
+.accordion-header{
+    border-bottom: groove;
+    font-size: 1.1rem;
+    border-color: #0095ff;
+}
+.header-container{
+    display: flex;
+    font-size: 1.2rem !important;
+}
+
+.config-card{
+    min-width: 600px;
+}
+
+.btns-container{
+    margin-left: auto;
+}
+
+.btn-misc{
+    margin-left: 10px;
+}
+
+.warning-txt{
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 25px;
+}
+
+.confirm-btn{
+    padding: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 150px;
+}
+
+.confirm-btns{
+    display: flex;
+}
+
+

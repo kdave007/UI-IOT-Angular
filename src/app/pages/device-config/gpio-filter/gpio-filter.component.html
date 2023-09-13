@@ -1,0 +1,29 @@
+<div class="gpio-container upper-container">
+    <div>
+        <ng-container *ngFor="let GPIO of GPIOS; let i = index">
+            <ng-container *ngIf="i<8">
+                <div class="input-container">
+                    <span class="info-text">{{GPIO.label}}:</span>
+                    <input nbInput value={{GPIO.value}} class="inputPicker" type="number" min=0 max=1000 placeholder="" (keyup)="updateFilter($event, GPIO.id)" (change)="updateFilter($event, GPIO.id)" [(ngModel)]="GPIO.value"> 
+                    <span class="small-text">ms</span>
+                </div>
+            </ng-container>
+           
+        </ng-container>
+    </div>
+    <div>
+        <ng-container *ngFor="let GPIO of GPIOS; let i = index">
+            <ng-container *ngIf="i>=8">
+                <div class="input-container" style="padding-left: 5rem;">
+                <span class="info-text" [ngStyle]="{'padding-right': (i==8) ? '1.7rem':'1rem'}"> {{GPIO.label}}: </span>
+                    <input nbInput value={{GPIO.value}} class="inputPicker" type="number" min=0 max=1000 placeholder="" (keyup)="updateFilter($event, GPIO.id)" (change)="updateFilter($event, GPIO.id)" [(ngModel)]="GPIO.value"> 
+                    <span class="small-text">ms</span>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+</div>
+
+ <!--
+            <ng-number-picker value={{GPIO.defaultValue}} class="small-picker" postfix="ms" min=0 max=1000 size="small" (valueChange)="updateFilter($event, GPIO.id)" [(ngModel)]="GPIO.value"></ng-number-picker>
+            -->

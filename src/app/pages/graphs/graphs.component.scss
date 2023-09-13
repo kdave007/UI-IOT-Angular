@@ -1,0 +1,37 @@
+::ng-deep .cdk-global-scrollblock {
+     position: static;
+     overflow: hidden !important;
+ }
+.row {
+     display: inline !important;
+     min-width: 200px;
+}
+
+.col-lg-6 {
+     max-width: 100%!important;
+}
+
+.chartjs-render-monitor {
+     height: 500px !important;
+}
+
+.chartjs-size-monitor{
+     height: 500px !important;
+}
+
+.divsCont{
+     //display: flex;
+     padding: 5px 10px;
+}
+
+#customCont{
+     padding: 25px;
+}
+
+.buttons-row {
+     margin: -0.5rem;
+   }
+ 
+   button[nbButton] {
+     margin: 0.5rem;
+   }

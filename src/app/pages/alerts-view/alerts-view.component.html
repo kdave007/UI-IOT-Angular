@@ -1,0 +1,395 @@
+<div class="row">
+     <div class="col-lg-6">
+          <nb-card>
+               <nb-card-header> 
+                    <div class="header-container">
+                         <div>Configuración de alarmas CoolChain</div>
+                         <div class= "btns-container" >
+                              <button nbButton hero [disabled]="saveDisabled" status="success" (click)="saveSettings()" size="small" >Guardar</button>
+                         </div>
+                    </div>
+               </nb-card-header>
+               <nb-card-body class="nb-Body nb-body-custom">
+               
+                    <div class="select-container">
+                         <div style="padding-left:2%;">
+                              <nb-select style="min-width: 170px!important; font-size: 1.2rem;"  placeholder="Dispositivo" *ngIf='dropReady' (selectedChange)="onSelectChange($event)">
+                                   <nb-option  *ngFor='let x of devList.devList; let i = index' [value]="x.id"><span style="font-size: 1.2rem;">{{ x.alias }}</span></nb-option>
+                               </nb-select>
+                         </div>
+
+                    </div> 
+                    
+                    <!-- <div class="subtitle">Alertas</div>
+                    <nb-accordion > -->
+                         <!-- ACCORDION ITEM START HERE  -->
+                         <!-- <nb-accordion-item>
+                              <nb-accordion-item-header class="accordion-header">
+                                   Temperatura de la caja congelada
+                              </nb-accordion-item-header>
+
+                              <nb-accordion-item-body>
+                                   <ng-container *ngFor="let setup of settings">
+                                        <ng-container *ngIf="sortInputs(setup.alertType,'box')">
+                                        <div style="padding: 1% 0% 2% 2%;">
+                                             <label class="title-label"> {{ sensorPosition(setup.alertType) }}</label>
+                                        </div>
+                                        <div>
+                                             <table [ngClass]=" (setup.alertType==2) ? 'table-striped table ':'table-striped table BorderLine'">
+                                                  
+                                                  <div class="div-custom" style="padding: 0% 0% 0% 2% !important; align-items: flex-end;">
+                                                       <label class="sub-label" style="display: block!important; ">Notificación : 	&nbsp; </label>
+                                                       <nb-checkbox  [disabled]="allDisabled" status="success" [(ngModel)]="setup.activeStatus" (change)="changeUpdate(setup.alertType)"><span style="font-size: 15px; font-size: 1.1rem;">{{ (setup.activeStatus) ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                                                  </div>
+
+                                                  <div class="div-custom" style="padding: 0% 0% 1% 2% !important; align-items: baseline;">
+                                                       
+                                                       <label class="sub-label" style="display: block!important;">Temperatura (°C) bajo condición : 	&nbsp; </label>
+                                                       
+                                                       <nb-select [disabled]="(setup.activeStatus) ? false :true" placeholder="Condición" [(selected)]="setup.conditionParam" (selectedChange)="conditionChange(setup.alertType,$event)" hero status="warning" >
+                                                            <nb-option *ngFor="let c of condition | keyvalue " [value]="c.value.symbol"> {{ c.value.title }} </nb-option>
+                                                       </nb-select>
+                                                  
+                                                  </div>
+
+                                                  <tbody>
+
+                                                       <tr>   
+                                                            <td>
+                                                                 <div style="display: flex; padding-left: 1%; align-items: baseline;">
+                                                                      <label  class="sub-label" style="display: block!important;" >{{(setup.showLowLim) ? '':'Mayor que '}} </label>&nbsp;&nbsp;
+                                                                      <input [(hidden)]="setup.showLowLim" (change)="changeUpdate(setup.alertType)" [disabled]="(setup.activeStatus) ? false :true" style="color: red; padding-left: 10px;" nbInput [(ngModel)]="setup.lowerLim" class="inputPicker"  type="number" max="100" min="-90" placeholder="°C">&nbsp;&nbsp;
+                                                                      <label class="sub-label" style="display: block!important;">{{ conditionText[setup.conditionParam] }}</label>&nbsp;&nbsp;
+                                                                      <input (change)="changeUpdate(setup.alertType)" [disabled]="(setup.activeStatus) ? false :true" style="color: red; padding-left: 10px;" nbInput [(ngModel)]="setup.value" class="inputPicker"  type="number" max="100" min="-90" placeholder="°C">&nbsp;&nbsp;
+                                                                 </div>
+                                                            </td>
+                                                       </tr>            
+
+                                                       <tr>  
+                                                            <td style="padding-left: 2%; text-align: left;"> 
+                                                            <label class="sub-label">A partir de lapso de tiempo de : 	&nbsp; </label>
+                                                            <input (change)="changeUpdate(setup.alertType)" [disabled]="(setup.activeStatus) ? false :true" style="color: blue; padding-left: 10px;" nbInput [(ngModel)]="setup.value2" class="inputPicker" min="1" type="number" placeholder="min">
+                                                       </td>
+                                                       </tr>
+
+                                                       <tr>   
+                                                            <td>
+                                                                 <div style="padding: 2% 0%; max-width: fit-content;">
+                                                                 <nb-accordion multi>
+                                                                      <nb-accordion-item>
+                                                                           <nb-accordion-item-header class="custom-accordion-header">Ayuda</nb-accordion-item-header>
+                                                                           <nb-accordion-item-body>
+                                                                                <div style="color: red; padding-left: 10px;">
+                                                                                     {{helpText[(setup.alertType)]}}
+                                                                                </div>
+                                                                      </nb-accordion-item-body>
+                                                                      </nb-accordion-item>
+                                                                 </nb-accordion>
+                                                            </div>
+                                                            </td>
+                                                       </tr>  
+                                                  </tbody>
+                                             </table>
+                                        </div>
+
+                                        </ng-container>  
+                              </ng-container>
+
+                              </nb-accordion-item-body>
+                         </nb-accordion-item> -->
+                         <!-- ACCORDION ITEM END HERE  -->
+
+                         <!-- ACCORDION ITEM START HERE  -->
+                         <!-- <nb-accordion-item>
+                              <nb-accordion-item-header class="accordion-header">
+                                   Compresor
+                              </nb-accordion-item-header>
+
+                              <nb-accordion-item-body>
+                                   <ng-container *ngFor="let setup of settings">
+                                        <ng-container *ngIf="sortInputs(setup.alertType,'compressor')">
+                                             <div style="padding: 1% 0% 2% 2%;">
+                                                  <label class="title-label"> {{ sensorPosition(setup.alertType) }}</label>
+                                             </div>
+                                             <div>
+                                                  <table [ngClass]=" (setup.alertType==2) ? 'table-striped table ':'table-striped table BorderLine'">
+                                                       
+                                                       <div class="div-custom" style="padding: 0% 0% 0% 2% !important; align-items: flex-end;">
+                                                            <label class="sub-label" style="display: block!important; ">Notificación : 	&nbsp; </label>
+                                                            <nb-checkbox [checked]="setup.activeStatus" [disabled]="allDisabled" status="success" [(ngModel)]="setup.activeStatus" (change)="changeUpdate(setup.alertType)"><span style="font-size: 15px; font-size: 1.1rem;">{{ (setup.activeStatus) ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                                                       </div>
+
+                                                       <div class="div-custom" style="padding: 0% 0% 1% 2% !important; align-items: baseline;">
+                                                            
+                                                            <label class="sub-label" style="display: block!important;">Temperatura (°C) bajo condición : 	&nbsp; </label>
+                                                            
+                                                            <nb-select [disabled]="(setup.activeStatus) ? false :true" placeholder="Condición" [(selected)]="setup.conditionParam" (selectedChange)="conditionChange(setup.alertType,$event)" hero status="warning" >
+                                                                 <nb-option *ngFor="let c of condition | keyvalue " [value]="c.value.symbol"> {{ c.value.title }} </nb-option>
+                                                            </nb-select>
+                                                       
+                                                       </div>
+
+                                                       <tbody>
+
+                                                            <tr>   
+                                                                 <td>
+                                                                      <div style="display: flex; padding-left: 1%; align-items: baseline;">
+                                                                           <label  class="sub-label" style="display: block!important;" >{{(setup.showLowLim) ? '':'Mayor que '}} </label>&nbsp;&nbsp;
+                                                                           <input [(hidden)]="setup.showLowLim" (change)="changeUpdate(setup.alertType)" [disabled]="(setup.activeStatus) ? false :true" style="color: red; padding-left: 10px;" nbInput [(ngModel)]="setup.lowerLim" class="inputPicker"  type="number" max="100" min="-90" placeholder="°C">&nbsp;&nbsp;
+                                                                           <label class="sub-label" style="display: block!important;">{{ conditionText[setup.conditionParam] }}</label>&nbsp;&nbsp;
+                                                                           <input (change)="changeUpdate(setup.alertType)" [disabled]="(setup.activeStatus) ? false :true" style="color: red; padding-left: 10px;" nbInput [(ngModel)]="setup.value" class="inputPicker"  type="number" max="100" min="-90" placeholder="°C">&nbsp;&nbsp;
+                                                                      </div>
+                                                                 </td>
+                                                            </tr>            
+
+                                                            <tr>  
+                                                                 <td style="padding-left: 2%; text-align: left;"> 
+                                                                 <label class="sub-label">A partir de lapso de tiempo de : 	&nbsp; </label>
+                                                                 <input (change)="changeUpdate(setup.alertType)" [disabled]="(setup.activeStatus) ? false :true" style="color: blue; padding-left: 10px;" nbInput [(ngModel)]="setup.value2" class="inputPicker" min="1" type="number" placeholder="min">
+                                                            </td>
+                                                            </tr>
+
+                                                            <tr>   
+                                                                 <td>
+                                                                      <div style="padding: 2% 0%; max-width: fit-content;">
+                                                                      <nb-accordion multi>
+                                                                           <nb-accordion-item>
+                                                                                <nb-accordion-item-header class="custom-accordion-header">Ayuda</nb-accordion-item-header>
+                                                                                <nb-accordion-item-body>
+                                                                                     <div style="color: red; padding-left: 10px;">
+                                                                                          
+                                                                                          {{helpText[(setup.alertType)]}}
+                                                                                     </div>
+                                                                           </nb-accordion-item-body>
+                                                                           </nb-accordion-item>
+                                                                      </nb-accordion>
+                                                                 </div>
+                                                                 </td>
+                                                            </tr>  
+                                                       </tbody>
+                                                  </table>
+                                             </div>
+
+                                        </ng-container>  
+                                   </ng-container>
+
+                                   <div >
+                                        <div style="padding: 1% 0% 2% 2%;">
+                                             <label class="title-label">Diferencia de temperaturas en compresor</label>
+                                        </div>
+
+                                        <div>
+                                             <table  [ngClass]=" 'table-striped table '" >
+
+                                                  <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;">
+                                                       <label class="sub-label" style="display: block!important; ">Notificación : 	&nbsp; </label>
+                                                       <nb-checkbox [checked]="settings[tempsDiff].activeStatus" [(ngModel)]="settings[tempsDiff].activeStatus" [disabled]="allDisabled" status="success" (change)="changeUpdate(settings[tempsDiff].alertType)"><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[tempsDiff].activeStatus) ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                                                  </div>
+
+                                                  <tbody>
+                                                       <tr>   
+                                                            <td>
+                                                                 <div style="display: flex; padding-left: 1%; align-items: baseline;">
+                                                                      <label class="sub-label" style="display: block!important;"  >Cuando la diferencia de temperaturas sea menor a </label>&nbsp;&nbsp;
+                                                                      <input (change)="changeUpdate(settings[tempsDiff].alertType)" [disabled]="(settings[tempsDiff].activeStatus) ? false : true" style="color: red; padding-left: 10px;" nbInput [(ngModel)]="settings[tempsDiff].value" class="inputPicker"  type="number" max="100" min="-90" placeholder="°C">&nbsp;&nbsp;
+                                                                 </div>
+                                                            </td>
+                                                       </tr>            
+
+                                                       <tr>  
+                                                            <td style="padding-left: 2%; text-align: left;"> 
+                                                                 <label class="sub-label">A partir de lapso de tiempo de : 	&nbsp; </label>
+                                                                 <input (change)="changeUpdate(settings[tempsDiff].alertType)" [disabled]="(settings[tempsDiff].activeStatus) ? false : true" style="color: blue; padding-left: 10px;" nbInput [(ngModel)]="settings[tempsDiff].value2" class="inputPicker" min="1" type="number" placeholder="min">
+                                                            </td>
+                                                       </tr>
+
+                                                       <tr>   
+                                                            <td>
+                                                                 <div style="padding: 2% 0%; max-width: fit-content;">
+                                                                      <nb-accordion multi>
+                                                                           <nb-accordion-item>
+                                                                                <nb-accordion-item-header class="custom-accordion-header">Ayuda</nb-accordion-item-header>
+                                                                                     <nb-accordion-item-body>
+                                                                                          <div style="color: red; padding-left: 10px;">
+                                                                                               Compara y calcula la diferencia de temperaturas de los termistores en la tubería de carga y descarga del compresor, si encuentra una diferencia menor al valor ingresado, emite una alerta.
+                                                                                          </div>
+                                                                                     </nb-accordion-item-body>
+                                                                                </nb-accordion-item>
+                                                                      </nb-accordion>
+                                                                 </div>
+                                                            </td>
+                                                       </tr>  
+                                                       
+                                                  </tbody>
+                                             </table>
+                                        </div>
+                                   </div>
+
+                              </nb-accordion-item-body>
+                         </nb-accordion-item> -->
+                         <!-- ACCORDION ITEM END HERE  -->
+                          <!-- ACCORDION ITEM START HERE  -->
+                          <!-- <nb-accordion-item>
+                              <nb-accordion-item-header class="accordion-header">
+                                   Deshielado
+                              </nb-accordion-item-header>
+
+                              <nb-accordion-item-body>
+                                   <div style="padding: 1% 0% 2% 2%;">
+                                        <label class="title-label">Límite antes de deshielar</label>
+                                   </div>
+
+                                   <div>     
+                                        <table class="table table-bordered table-striped" > 
+                                             <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                                                  <label  class="sub-label" style="display: block!important;" >Notificación : 	&nbsp; </label>
+                                                  <nb-checkbox [(ngModel)]="settings[defrost].activeStatus" [disabled]="allDisabled" status="success" (change)="changeUpdate(settings[defrost].alertType)"><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[defrost].activeStatus) ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                                             </div>
+                                   
+                                             <tbody>
+                                                  <tr>
+                                                       <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                                            <label class="sub-label">A partir de numero de días : 	&nbsp; </label>
+                                                            <input (change)="changeUpdate(settings[defrost].alertType)" [disabled]="(settings[defrost].activeStatus) ? false : true" [(ngModel)]="settings[defrost].value" style="color: green; padding-left: 10px;" nbInput class="inputPicker" type="number" max="365" min="0" placeholder="días">
+                                                       </div>
+                                                  </tr>     
+                                             </tbody>
+
+                                        </table>     
+                                   </div>
+                               </nb-accordion-item-body>
+                         </nb-accordion-item> -->
+                         <!-- ACCORDION ITEM END HERE  -->
+                         <!-- ACCORDION ITEM START HERE  -->
+                         <!-- <nb-accordion-item>
+                              <nb-accordion-item-header class="accordion-header">
+                                   Apertura de puertas
+                              </nb-accordion-item-header>
+                              <nb-accordion-item-body>
+                                   <div style="padding: 1% 0% 2% 2%;">
+                                        <label class="title-label">Puertas laterales</label>
+                                   </div>
+
+                                   <div>
+                                        <table class="table table-bordered table-striped">
+                                             <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                                                  <label class="sub-label" style="display: block!important;">Notificación : 	&nbsp; </label>
+                                                  <nb-checkbox [(ngModel)]="settings[backDoor].activeStatus" [disabled]="allDisabled" status="success" (change)="changeUpdate(settings[backDoor].alertType)"><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[backDoor].activeStatus) ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                                             </div>
+
+                                             <tbody>
+                                                  <tr>  
+                                                       <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                                            <label class="sub-label">Una o mas abiertas durante un tiempo(Minutos) mayor a : 	&nbsp; </label>
+                                                            <input (change)="changeUpdate(settings[backDoor].alertType)" [disabled]="(settings[backDoor].activeStatus) ? false : true" style="color: red; padding-left: 10px;" nbInput [(ngModel)]="settings[backDoor].value" class="inputPicker" type="number" max="60" min="0" placeholder="Min">
+                                                       </div>     
+                                                  </tr>
+                                             </tbody>
+                                        </table>
+                                   </div>
+                                   <div style="padding: 1% 0% 2% 2%;">
+                                        <label class="title-label">Puerta trasera</label>
+                                   </div>
+                                   <div>
+                                        <table class="table table-bordered table-striped">
+                                             <div class="div-custom" style="padding: 0% 0% 0% 2% !important; align-items: flex-end;"> 
+                                                  <label class="sub-label" style="display: block!important;">Notificación : 	&nbsp; </label>
+                                                  <nb-checkbox [(ngModel)]="settings[theDoors].activeStatus" [disabled]="allDisabled" status="success" (change)="changeUpdate(settings[theDoors].alertType)"><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[theDoors].activeStatus) ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                                             </div>
+
+                                             <tbody>
+                                                  <tr>  
+                                                       <div style="display: flex; padding-left: 2%; align-items: baseline; align-items: baseline;">
+                                                            <label class="sub-label">Abierta un tiempo(Minutos) mayor a : 	&nbsp; </label>
+                                                            <input [(ngModel)]="settings[theDoors].value" (change)="changeUpdate(settings[theDoors].alertType)" [disabled]="(settings[theDoors].activeStatus) ? false : true" nbInput style="color: red; padding-left: 10px;" class="inputPicker" type="number" max="60" min="0" placeholder="Min">
+                                                       </div>     
+                                                  </tr>
+
+                                             </tbody>
+                                        </table>
+                                   </div>
+                               </nb-accordion-item-body>
+                         </nb-accordion-item> -->
+                         <!-- ACCORDION ITEM END HERE  -->
+                         <!-- ACCORDION ITEM START HERE  -->
+                         <!-- <nb-accordion-item>
+                              <nb-accordion-item-header class="accordion-header">
+                                   Alimentación eléctrica 
+                              </nb-accordion-item-header>
+                              <nb-accordion-item-body>
+                                   
+                                   <div style="padding: 1% 0% 2% 2%;">
+                                        <label class="title-label">Batería del camión</label>
+                                   </div>
+                                   <div>
+                                        <table class="table table-bordered table-striped">
+                                             <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                                                  <label class="sub-label" style="display: block!important;">Notificación : 	&nbsp; </label>
+                                                  <nb-checkbox [(ngModel)]="settings[trucksBatt].activeStatus" [disabled]="allDisabled" status="success" (change)="changeUpdate(settings[trucksBatt].alertType)"><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[trucksBatt].activeStatus) ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                                             </div>
+
+                                             <tbody>
+                                                  <tr>  
+                                                       <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                                            <label class="sub-label">Alerta si la batería del camión se encuentra ausente durante  : 	&nbsp; </label>
+                                                            <input [(ngModel)]="settings[trucksBatt].value" (change)="changeUpdate(settings[trucksBatt].alertType)" [disabled]="(settings[trucksBatt].activeStatus) ? false : true" style="color: red; padding-left: 10px;" nbInput class="inputPicker" type="number" max="60" min="0" placeholder="Min">
+                                                       </div>     
+                                                  </tr>
+                                             </tbody>
+                                        </table>
+                                   </div>
+
+                                   <div style="padding: 1% 0% 2% 2%;">
+                                        <label class="title-label">Alimentación por bateria propia del dispositivo</label>
+                                   </div>
+                                   <div>
+                                        <table class="table table-bordered table-striped">
+                                             <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                                                  <label class="sub-label" style="display: block!important;">Notificación : 	&nbsp; </label>
+                                                  <nb-checkbox [(ngModel)]="settings[backUpSource].activeStatus" [disabled]="allDisabled" status="success" (change)="changeUpdate(settings[backUpSource].alertType)"><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[backUpSource].activeStatus) ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                                             </div>
+
+                                             <tbody>
+                                                  <tr>  
+                                                       <div style="padding: 0.5rem 0 0.5rem 2%; ">
+                                                            <label class="sub-label"  style="display: unset">Emitir alerta si el dispositivo empieza a funcionar con batería propia.&nbsp; </label>
+                                                       </div>     
+                                                  </tr>
+                                             </tbody>
+                                        </table>
+                                   </div>
+
+                                   <div style="padding: 1% 0% 2% 2%;">
+                                        <label class="title-label">Nivel de carga de bateria del dispositivo</label>
+                                   </div>
+                                   <div>
+                                        <table class="table table-bordered table-striped">
+                                             <div class="div-custom" style="padding: 0% 0% 0% 2% !important;  align-items: flex-end;"> 
+                                                  <label class="sub-label" style="display: block!important;">Notificación : 	&nbsp; </label>
+                                                  <nb-checkbox [(checked)]="settings[backUpLevel].activeStatus" [disabled]="allDisabled" status="success" (change)="changeUpdate(settings[backUpLevel].alertType)"><span style="font-size: 15px; font-size: 1.1rem;">{{ (settings[backUpLevel].activeStatus) ? "Activada" : "Desactivada" }}</span></nb-checkbox>
+                                             </div>
+
+                                             <tbody>
+                                                  <tr>  
+                                                       <div style="display: flex; padding-left: 2%; align-items: baseline;">
+                                                            <label class="sub-label">Alerta si la batería interna del dispositivo se encuentra operando un porcentaje menor a : 	&nbsp; </label>
+                                                            <input [(ngModel)]="settings[backUpLevel].value" (change)="changeUpdate(settings[backUpLevel].alertType)" [disabled]="(settings[backUpLevel].activeStatus) ? false : true" style="color: red; padding-left: 10px;" nbInput class="inputPicker" type="number" max="100" min="0" placeholder="%">
+                                                       </div>     
+                                                  </tr>
+                                             </tbody>
+                                        </table>
+                                   </div>
+
+                              </nb-accordion-item-body>
+                         </nb-accordion-item> -->
+                         <!-- ACCORDION ITEM END HERE  -->  
+
+                    <!-- </nb-accordion> -->
+                    <div class="subtitle">Alarmas</div>
+                    <ngx-alarms-view *ngIf="userPermissions" [user]="user" [deviceId]="deviceId" [(saveFlag)]="saveFlag"></ngx-alarms-view>
+
+               </nb-card-body>
+          </nb-card> 
+     </div>
+</div>
+

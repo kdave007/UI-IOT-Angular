@@ -1,0 +1,267 @@
+<div class="row">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header style="font-size: 1.2rem !important;">Configuraciones de mi cuenta</nb-card-header>
+      <nb-card-body>
+
+        <nb-tabset>
+          <nb-tab tabTitle="Cuenta">
+            <div class="account-container">
+              <div>
+                <ngx-account-view [sessionUserN]="userSeasonInfo"></ngx-account-view>
+              </div>
+
+              <mat-divider vertical class="vertical-divider"></mat-divider>
+              
+              <div class="image-picker-container">
+                <ngx-user-image [userId]="userId"></ngx-user-image>
+              </div>              
+            </div>
+          </nb-tab>
+
+          <nb-tab *ngIf="userSeasonInfo.level<3" tabTitle="Agregar un nuevo usuario">
+            <div class="adminStepper">
+            <nb-stepper #stepper orientation="horizontal" disableStepNavigation>
+
+              <nb-step [label]="labelUserType" >
+                <ng-template #labelUserType>Seleccionar tipo</ng-template>
+                <div class="step-container">
+                  <div class="form-title">
+                    Tipo de usuario
+                  </div>
+                  <div class="control-container">
+                    <button class="ctrl-btn" [disabled]="(userSeasonInfo.level==1) ? false : true" nbButton nbStepperNext (click)="setNewUserType(TYPE.ADMIN)">Administrador</button>
+                    <button class="ctrl-btn"  nbButton nbStepperNext (click)="setNewUserType(TYPE.SECONDARY)" nbButton>Secundario</button>
+                  </div>
+                </div>
+              </nb-step>
+
+              <nb-step [stepControl]="adminNameForm" [label]="labelAdminName">
+                <ng-template #labelAdminName>Ingresar nombre</ng-template>
+                
+                <div class="step-container">
+                  <div class="form-title">
+                    Nombre del usuario
+                  </div>
+        
+                  <div class="form-container">
+                    <form #adminNameForm="ngForm" class="form">
+                      <div class="input-group">
+                        <input type="text"
+                              placeholder="Ingresa el nombre del usuario"
+                              class="form-control"
+                              name="adName"
+                              required
+                              nbInput
+                              ngModel
+                              #adName="ngModel"
+                              [status]="adName.invalid ? 'danger' : 'basic'"
+                              maxlength=15
+                              (keyup)="setAdminName($event)">
+                      </div>
+                    </form>
+                  </div>
+        
+                  <div class="control-container">
+                    <button class="ctrl-btn" nbButton nbStepperPrevious>anterior</button>
+                    <button class="ctrl-btn" nbButton nbStepperNext>siguiente</button>
+                  </div>
+                </div>
+                
+              </nb-step>
+
+              <nb-step [stepControl]="adminMailForm" [label]="labelAdminMail">
+                <ng-template #labelAdminMail>Ingresar correo</ng-template>
+                
+                <div class="step-container">
+                  <div class="form-title">
+                    Correo del usuario
+                  </div>
+        
+                  <div class="form-container">
+                    <form #adminMailForm="ngForm" class="form">
+                      <div class="input-group">
+                        <input type="text"
+                              placeholder="Ingresa el correo del usuario"
+                              class="form-control"
+                              name="adMail"
+                              required
+                              nbInput
+                              ngModel
+                              #adMail="ngModel"
+                              [status]="adMail.invalid ? 'danger' : 'basic'"
+                              pattern="^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$"
+                              oninput="this.value = this.value.toLowerCase()"
+                              (keyup)="setAdminMail($event)">
+                      </div>
+                    </form>
+                  </div>
+        
+                  <div class="control-container">
+                    <button class="ctrl-btn" nbButton nbStepperPrevious>anterior</button>
+                    <button class="ctrl-btn" nbButton nbStepperNext>siguiente</button>
+                  </div>
+                </div>
+                
+              </nb-step>
+
+              <nb-step [label]="labelConfirm">
+                <ng-template #labelConfirm>Confirmación</ng-template>
+                
+                <div>
+                  <div class="dev-data-container">
+                    <div class="dev-data">
+                      <span class="data-title"> Nombre: </span>
+                      <span> {{newUserName}} </span>
+                    </div>
+        
+                    <div class="dev-data">
+                      <span class="data-title"> Correo: </span>
+                      <span> {{newUserMail}} </span>
+                    </div> 
+                    
+                    <div class="dev-data">
+                      <span class="data-title"> Tipo: </span>
+                      <span> {{(newUserType>2) ? "Secundario":"Administrador"}} </span>
+                    </div> 
+                  </div>
+        
+                  <div class="control-container">
+                    <button class="ctrl-btn" nbButton nbStepperPrevious>anterior</button>
+                    <button class="ctrl-btn" (click)="stepper.reset();createNewAdmin()" nbButton>confirmar</button>
+                  </div>
+                </div>
+              </nb-step>
+
+            </nb-stepper>
+            </div>
+          </nb-tab>
+
+          <nb-tab tabTitle="Acceso al sistema">
+            <ngx-access [userId]="userId"></ngx-access>
+          </nb-tab>
+        </nb-tabset>
+
+        <nb-tabset>
+
+        </nb-tabset>
+         
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<!-- <div class="row">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header>      
+        <div>
+          <mat-form-field *ngIf="showSelector" class="misc-item">
+            <mat-label>Rama actual</mat-label>
+            <mat-select [(value)]="currentUser">
+                <mat-option *ngFor="let userAdmin of usersAdmin" value={{userAdmin.name}} (click)="setUser(userAdmin.id)"> {{userAdmin.name}} </mat-option>
+            </mat-select>
+          </mat-form-field>  
+        </div>
+
+      </nb-card-header>
+      <nb-card-body  id="container" style=" overflow: hidden;">
+        
+        <div *ngIf="showOrganizer ; then organizerBlock else loadingBlock"></div>        
+        
+        <ng-template #organizerBlock>
+          <div>
+            <button nbButton hero status="warning"  (click)="showHelp(helpDialog)">Ayuda</button>
+            <ngx-organizer [usersB]="usersB" [userDevList]="userDevList" [masterData]="masterData"></ngx-organizer>
+          </div>
+        </ng-template>
+
+        <ng-template #loadingBlock>
+          <div class="animated infinite flash slow loading-txt">
+            Cargando datos... 
+          </div>          
+        </ng-template>
+
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div> -->
+
+<div *ngIf="userSeasonInfo && userSeasonInfo.level<3" class="row">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header style="font-size: 1.2rem !important;">      
+        <div>
+          <div>Selección de usuario</div>
+        </div>
+      </nb-card-header>
+      
+      <nb-card-body  id="container" style=" overflow: hidden;">   
+        <div>
+          <div>
+            <ngx-users-selection [userSeasonInfo]="userSeasonInfo"></ngx-users-selection>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<div *ngIf="userSeasonInfo && userSeasonInfo.level<3" class="row">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header style="font-size: 1.2rem !important;">      
+        <div>
+          <div>Permisos de usuario seleccionado</div>
+        </div>
+      </nb-card-header>
+      
+      <nb-card-body  id="container" style=" overflow: hidden;">   
+        <div>
+          <div>
+            <ngx-user-permissons [userSeasonInfo]="userSeasonInfo"></ngx-user-permissons>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<div *ngIf="userSeasonInfo && userSeasonInfo.level<3" class="row">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header style="font-size: 1.2rem !important;">      
+        <div>
+          <div>Configuración de usuario seleccionado</div>
+        </div>
+      </nb-card-header>
+      
+      <nb-card-body  id="container" style=" overflow: hidden;">   
+        <div>
+          <div>
+            <ngx-other-user-settings ></ngx-other-user-settings>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<ng-template  #helpDialog>
+  <div class="warning-txt ">
+    <div class="warning-txt "> {{helpText}} </div>
+
+    <div class="confirm-btns ">
+      
+      <button nbButton
+            class="confirm-btn"
+            fullWidth
+            status="info"
+            
+            (click)="closeHelp()">
+            OK
+      </button>
+
+    </div>
+  </div>
+</ng-template>

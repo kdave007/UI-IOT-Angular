@@ -1,0 +1,26 @@
+<div class="calendars">
+     <div style="padding-right: 15px;">
+          <div class="customA-cont" > <label  style="color: red;" >Selecciona fechas</label></div>
+          <input nbInput class="inputPicker" placeholder="Calendario" [nbDatepicker]="formpicker">
+          <nb-rangepicker #formpicker (rangeChange)="rangeChange($event)"></nb-rangepicker>
+     </div>
+     <div class="input-time-container">
+          <div class="input-time-row" style="padding-right: 20px;">
+            <div style=" padding-right:2%; padding-bottom: 5%; color: red;">Horario inicial (Hr : Min)</div>
+            <div style="display: flex;">
+              <input nbInput [(ngModel)]="timeRange.start.hour" class="inputPicker" type="number" min="0" max="23" (change)="cleanRangeHour($event,'start')"> &nbsp; : &nbsp;
+              <input nbInput [(ngModel)]="timeRange.start.min" class="inputPicker" type="number" min="0" max="59" (change)="cleanRangeMin($event,'start')">
+            </div>  
+          </div>
+          <div class="input-time-row">
+            <div style=" padding-right:2%; padding-bottom: 5%; color: red;">Horario final (Hr : Min)</div> 
+            <div style="display: flex;">
+              <input [(ngModel)]="timeRange.end.hour" class="inputPicker" nbInput type="number" min="0" max="23" (change)="cleanRangeHour($event,'end')"> &nbsp; : &nbsp;
+              <input [(ngModel)]="timeRange.end.min" class="inputPicker" nbInput type="number" min="0" max="59" (change)="cleanRangeMin($event,'end')">
+            </div>
+          </div>
+        </div>
+        <div class="btn-cont" style="padding-top:31px;">
+          <button nbButton hero status="warning" (click)="updateDateBtn()" [attr.disabled]="disableDates ? true : null" >Actualizar</button>
+        </div>
+   </div>

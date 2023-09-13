@@ -1,0 +1,47 @@
+<div class="header-container">
+  <div class="logo-container">
+    <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
+      <nb-icon icon="menu-2-outline"></nb-icon>
+    </a>
+
+    <a class="logo" href="#" (click)="navigateHome()">CoolChain<span></span></a>
+
+    <!-- <a class="logo" href="#"><img src="assets/images/icon_at.png" style="width: 4rem; padding-right: 1rem;" title="Home" alt="Home"></a> -->
+    <div id="wrapper" class="responsive-logo">
+      <!-- <img class="logo-Img" src="assets/images/logo1.png">
+      <img class="logo-Img" src="assets/images/logo2.png">
+      <img class="logo-Img" src="assets/images/logo3.png">
+      <img class="logo-Img" src="assets/images/logo4.png"> -->
+
+      <img class="logo-Img" src="assets/images/coolchain_temp.gif">
+
+    </div>
+    <nb-select [selected]="currentTheme" (selectedChange)="changeTheme($event)" status="primary">
+        <nb-option *ngFor="let theme of themes" [value]="theme.value"> {{ theme.name }}</nb-option>
+    </nb-select>
+      
+  </div>
+  
+  
+</div>
+
+<div class="header-container">
+  <nb-actions size="small">
+
+    <nb-action class="control-item">
+      <nb-search type="rotate-layout" [placeholder]="'Buscar...'" [hint]="'Búsqueda global'"></nb-search>
+    </nb-action>
+    <!--
+    <nb-action class="control-item" icon="email-outline"></nb-action>
+    <nb-action class="control-item" icon="bell-outline"></nb-action> -->
+    <nb-action class="user-action" *nbIsGranted="['view', 'user']" >
+      <nb-user [nbContextMenu]="userMenu"
+               [onlyPicture]="userPictureOnly"
+               [name]="uName"
+               [picture]="uImage">
+               <!--[picture]="user?.picture">-->
+      </nb-user>
+    </nb-action>
+
+  </nb-actions> 
+</div>

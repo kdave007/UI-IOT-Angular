@@ -1,0 +1,122 @@
+<div class="col-lg-6">
+  <ngx-devices></ngx-devices>
+</div>
+<div id="customCont" class="row">
+  <div class="col-lg-6">
+      <nb-card>
+          <nb-card-header style="font-size: 1.2rem !important;">Establecer rango de fechas</nb-card-header>
+            <nb-card-body>
+                <!-- <div class="buttons-row">
+                    <button id="aT" nbButton status="success" (click)="adjustChart('aT')" >Termistores<nb-icon icon="collapse"></nb-icon></button>
+                    <button id="aG" nbButton status="warning" (click)="adjustChart('aG')">Gpio's<nb-icon icon="collapse"></nb-icon></button>
+                </div> -->
+                <div class="row">
+                    <div class="col-lg-6">
+                      <!-- <ngx-calendar-card></ngx-calendar-card> -->
+                      <ngx-date-time-selector></ngx-date-time-selector>
+                    </div>
+                </div> 
+                <div style="padding-top: 30px;"> 
+                  <div class="row" style="padding-left: 25px;">
+                    *Utilice el cursor sobre el plano de cada gráfica para hacer zoom y mover los datos.
+                  </div>
+                </div> 
+            </nb-card-body>
+      </nb-card>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header style="font-size: 1.2rem !important;">Monitoreo de caja refrigerada</nb-card-header>
+      <nb-card-body>
+        <ngx-temp-chart-box [dataToChild]="tempData" ></ngx-temp-chart-box>
+
+          <div class="buttons-row" style="text-align: center;">
+            <button id="aT" nbButton status="warning" (click)="adjustChart('aTB')">Restablecer vista<nb-icon icon="collapse"></nb-icon></button>
+          </div>
+
+      </nb-card-body>
+    </nb-card>
+    <nb-card>
+      <nb-card-header style="font-size: 1.2rem !important;">Monitoreo de unidad de enfriamiento</nb-card-header>
+      <nb-card-body>
+        <temp-chartjs-line [dataToChild]="tempData" ></temp-chartjs-line>
+
+          <div class="buttons-row" style="text-align: center;">
+            <button id="aT" nbButton status="warning" (click)="adjustChart('aT')">Restablecer vista<nb-icon icon="collapse"></nb-icon></button>
+          </div>
+
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+<!-- <div class="row">
+<div class="col-lg-6">
+  <nb-card>
+    <nb-card-header>Sensores de puertas y compresor</nb-card-header>
+    <nb-card-body>
+      <gpios-chartjs-line [dataToChild]="gpiosData" ></gpios-chartjs-line>
+
+        <div class="buttons-row" style="text-align: center;">
+          <button id="aG" nbButton status="warning" (click)="adjustChart('aG')">Restablecer vista<nb-icon icon="collapse"></nb-icon></button>
+        </div>
+
+    </nb-card-body>
+  </nb-card>
+</div>
+</div> -->
+
+<div class="row">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header style="font-size: 1.2rem !important;">Monitoreo de alimentación externa</nb-card-header>
+      <nb-card-body>
+        <ngx-external-source [dataToChild]="externalSource" [dataToChild_2]="powBankSamples"></ngx-external-source>
+  
+          <div class="buttons-row" style="text-align: center;">
+            <button id="aES" nbButton status="warning" (click)="adjustChart('aES')">Restablecer vista<nb-icon icon="collapse"></nb-icon></button>
+          </div>
+          
+      </nb-card-body>
+    </nb-card>
+  </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-6">
+      <nb-card>
+        <nb-card-header style="font-size: 1.2rem !important;">Monitoreo de batería interna</nb-card-header>
+        <nb-card-body>
+          <ngx-power-bank [dataToChild]="externalSource" [dataToChild_2]="powBankSamples"></ngx-power-bank>
+    
+            <div class="buttons-row" style="text-align: center;">
+              <button id="aES" nbButton status="warning" (click)="adjustChart('aES')">Restablecer vista<nb-icon icon="collapse"></nb-icon></button>
+            </div>
+            
+        </nb-card-body>
+      </nb-card>
+    </div>
+    </div>
+
+<div class="row">
+  <div class="col-lg-6">
+    <nb-card>
+      <nb-card-header style="font-size: 1.2rem !important;">Monitoreo de alimentación de compresor</nb-card-header>
+      <nb-card-body>
+        <ngx-voltages-chart [dataToChild]="gpiosData" ></ngx-voltages-chart>
+  
+          <div class="buttons-row" style="text-align: center;">
+            <button id="aV" nbButton status="warning" (click)="adjustChart('aV')">Restablecer vista<nb-icon icon="collapse"></nb-icon></button>
+          </div>
+          
+      </nb-card-body>
+    </nb-card>
+  </div>
+  </div>
+
+  
+
+
+
