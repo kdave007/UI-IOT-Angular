@@ -28,7 +28,7 @@ export class DevicesComponent implements OnInit,OnDestroy {
       this.mustUnsubscribe = true;
       this.subscription = this.deviceSelection.get().subscribe( data => {
         if(this.isEmpty(data)){
-          this.returnToHomeSillyBoy();
+          this.returnToHome();
         }
         this.device = data;
       });
@@ -36,9 +36,9 @@ export class DevicesComponent implements OnInit,OnDestroy {
 
   }
 
-  private returnToHomeSillyBoy(){
+  private returnToHome(){
     //return to home view if service didnt load properly 
-    console.log("BACK TO HOME!!!!") ;
+    
     this.router.navigateByUrl('/devices-list');
   }
 
